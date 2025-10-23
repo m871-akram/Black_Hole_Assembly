@@ -21,7 +21,8 @@ configure_file(${CMAKE_SOURCE_DIR}/grid.vert ${CMAKE_BINARY_DIR}/grid.vert COPYO
 configure_file(${CMAKE_SOURCE_DIR}/grid.frag ${CMAKE_BINARY_DIR}/grid.frag COPYONLY)
 
 # 1. BlackHole3D - GPU compute shader ray tracer
-add_executable(BlackHole3D black_hole_space.cpp)
+add_executable(BlackHole3D black_hole_space.cpp
+        common.hpp)
 target_link_libraries(BlackHole3D
         PRIVATE
         OpenGL::GL
@@ -31,7 +32,8 @@ target_link_libraries(BlackHole3D
 )
 
 # 2. GravitySim - N-body gravity simulation
-add_executable(GravitySim gravity_grid.cpp)
+add_executable(GravitySim gravity_grid.cpp
+        common.hpp)
 target_link_libraries(GravitySim
         PRIVATE
         OpenGL::GL
@@ -41,7 +43,8 @@ target_link_libraries(GravitySim
 )
 
 # 3. BlackHole2D - 2D gravitational lensing demo
-add_executable(BlackHole2D black_hole_curv.cpp)
+add_executable(BlackHole2D black_hole_curv.cpp
+        common.hpp)
 target_link_libraries(BlackHole2D
         PRIVATE
         OpenGL::GL
