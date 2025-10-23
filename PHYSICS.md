@@ -594,7 +594,3 @@ r_photon = 3GM/c² = 1.5r_s
 α ≈ 4GM/(bc²)  (weak field approximation)
 ```
 
----
-
-*This document accompanies the Black Hole Simulation project and provides the theoretical foundation for the implementations in BlackHole3D, BlackHole2D, and GravitySim.*
-
