@@ -233,9 +233,9 @@ struct Engine {
     }
 
     void dispatchCompute(const Camera& cam) {
-        // On baisse la résolution quand on bouge pour pas faire ramer le PC (stonks)
-        int cw = cam.moving ? COMPUTE_WIDTH : WIDTH;
-        int ch = cam.moving ? COMPUTE_HEIGHT : HEIGHT;
+        // determine target compute‐res - use consistent resolution
+        int cw = cam.moving ? COMPUTE_WIDTH  : 200;
+        int ch = cam.moving ? COMPUTE_HEIGHT : 150;
 
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, cw, ch, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);

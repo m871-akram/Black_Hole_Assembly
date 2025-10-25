@@ -131,16 +131,18 @@ bool crossesEquatorialPlane(vec3 oldPos, vec3 newPos) {
 }
 
 void main() {
-    // Résolution logique (tu peux la dynamiser si tu veux, ici c’est constant pour la démo)
-    int WIDTH  = cam.moving ? 200 : 200;
-    int HEIGHT = cam.moving ? 150 : 150;
-
     ivec2 pix = ivec2(gl_GlobalInvocationID.xy);
+
+    // Get actual texture dimensions dynamically
+    ivec2 texSize = imageSize(outImage);
+    int WIDTH  = texSize.x;
+    int HEIGHT = texSize.y;
+
     if (pix.x >= WIDTH || pix.y >= HEIGHT) return; // hors écran ? next.
 
-    // Génération du rayon caméra — mapping pixel -> direction dans l’espace
-    float u = (2.0 * (pix.x + 0.5) / WIDTH - 1.0) * cam.aspect * cam.tanHalfFov;
-    float v = (1.0 - 2.0 * (pix.y + 0.5) / HEIGHT) * cam.tanHalfFov;
+    // Génération du rayon caméra — mapping pixel -> direction dans l'espace
+    float u = (2.0 * (pix.x + 0.5) / float(WIDTH) - 1.0) * cam.aspect * cam.tanHalfFov;
+    float v = (1.0 - 2.0 * (pix.y + 0.5) / float(HEIGHT)) * cam.tanHalfFov;
     vec3 dir = normalize(u * cam.camRight - v * cam.camUp + cam.camForward);
     Ray ray = initRay(cam.camPos, dir);
 
