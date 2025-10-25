@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "physics_asm.hpp"  // Assembly-optimized physics functions
 #define _USE_MATH_DEFINES
 #include <chrono>
 #ifndef M_PI
@@ -40,10 +41,11 @@ struct BlackHole {
     }
 
     bool Intercept(float px, float py, float pz) const {
-        double dx = double(px) - double(position.x);
-        double dy = double(py) - double(position.y);
-        double dz = double(pz) - double(position.z);
-        double dist2 = dx * dx + dy * dy + dz * dz;
+        // ⚡ ASSEMBLY-OPTIMIZED: Fast squared distance check (no sqrt needed!)
+        double dist2 = PhysicsASM::DistanceSquared(
+            px, py, pz,
+            float(position.x), float(position.y), float(position.z)
+        );
         return dist2 < r_s * r_s; // check si on est tombé dedans, si oui c'est rip
     }
 };

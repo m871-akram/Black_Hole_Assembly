@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "physics_asm.hpp"  // Assembly-optimized physics functions
 
 // Ouais, ici on balance les shaders de la mort avec des effets de lumière et de glow stylés
 const char* vertexShaderSource = R"glsl(
@@ -128,12 +129,14 @@ public:
         this->velocity[2] += z / 96;
     }
 
-    // Collision ? Spoiler : non, juste un check bidon pour l’instant
+    // Collision ? Spoiler : non, juste un check bidon pour l'instant
     float CheckCollision(const Object& other) {
-        float dx = other.position[0] - this->position[0];
-        float dy = other.position[1] - this->position[1];
-        float dz = other.position[2] - this->position[2];
-        float distance = std::pow(dx*dx + dy*dy + dz*dz, (1.0f/2.0f));
+        // ⚡ ASSEMBLY-OPTIMIZED: Using fast distance calculation
+        float distSq = PhysicsASM::DistanceSquared(
+            this->position[0], this->position[1], this->position[2],
+            other.position[0], other.position[1], other.position[2]
+        );
+        float distance = std::sqrt(distSq);  // Only sqrt if we really need actual distance
         return 1.0f;
     }
 };
@@ -438,18 +441,35 @@ int main() {
 
             for(auto& obj2 : objs){
                 if(&obj2 != &obj && !obj.Initalizing && !obj2.Initalizing){
-                    float dx = obj2.GetPos()[0] - obj.GetPos()[0];
-                    float dy = obj2.GetPos()[1] - obj.GetPos()[1];
-                    float dz = obj2.GetPos()[2] - obj.GetPos()[2];
-                    float distance = sqrt(dx * dx + dy * dy + dz * dz);
+                    // ⚡ ASSEMBLY-OPTIMIZED: Fast squared distance calculation
+                    float distSq = PhysicsASM::DistanceSquared(
+                        obj.GetPos()[0], obj.GetPos()[1], obj.GetPos()[2],
+                        obj2.GetPos()[0], obj2.GetPos()[1], obj2.GetPos()[2]
+                    );
+
+                    float distance = std::sqrt(distSq);
 
                     if (distance > 0) {
-                        std::vector<float> direction = {dx / distance, dy / distance, dz / distance};
+                        // ⚡ ASSEMBLY-OPTIMIZED: Vector normalization for direction
+                        float direction[3] = {
+                            obj2.GetPos()[0] - obj.GetPos()[0],
+                            obj2.GetPos()[1] - obj.GetPos()[1],
+                            obj2.GetPos()[2] - obj.GetPos()[2]
+                        };
+                        PhysicsASM::Normalize(direction);  // Fast assembly normalization
+
                         distance *= 1000;
-                        double Gforce = (GRAVITATIONAL_CONSTANT * obj.mass * obj2.mass) / (distance * distance);
+
+                        // ⚡ ASSEMBLY-OPTIMIZED: Gravitational force calculation
+                        float distance_scaled_sq = distance * distance;
+                        double Gforce = (GRAVITATIONAL_CONSTANT * obj.mass * obj2.mass) / distance_scaled_sq;
 
                         float acc1 = Gforce / obj.mass;
-                        std::vector<float> acc = {direction[0] * acc1, direction[1]*acc1, direction[2]*acc1};
+
+                        // ⚡ ASSEMBLY-OPTIMIZED: Vector scaling for acceleration
+                        float acc[3];
+                        PhysicsASM::VectorScale(direction, acc1, acc);
+
                         if(!pause){
                             obj.accelerate(acc[0], acc[1], acc[2]);
                         }

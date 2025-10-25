@@ -4,12 +4,19 @@ A collection of real-time black hole and gravitational physics simulations using
 
 ## 🌌 Overview
 
-This project contains three interactive simulations that demonstrate various aspects of gravitational physics, plus an assembly-optimized physics computation module:
+This project contains three interactive simulations that demonstrate various aspects of gravitational physics, **all enhanced with assembly-optimized physics calculations**:
 
-1. **BlackHole3D** - GPU-accelerated 3D black hole ray tracer with gravitational lensing
-2. **GravitySim** - N-body gravity simulation with real-time particle interactions
-3. **BlackHole2D** - 2D gravitational lensing visualization
-4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly
+1. **BlackHole3D** - GPU-accelerated 3D black hole ray tracer with gravitational lensing  
+   ⚡ *Uses assembly for distance checks and collision detection*
+   
+2. **GravitySim** - N-body gravity simulation with real-time particle interactions  
+   ⚡ *Uses assembly for distance calculations, vector normalization, and force computations*
+   
+3. **BlackHole2D** - 2D gravitational lensing visualization  
+   ⚡ *Uses assembly for fast distance calculations in polar coordinates*
+   
+4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly  
+   ⚡ *Standalone demo showing the assembly functions used by all simulations*
 
 ## ✨ Features
 
@@ -18,7 +25,11 @@ This project contains three interactive simulations that demonstrate various asp
 - **Interactive controls** for camera movement and simulation parameters
 - **GPU acceleration** for high-performance rendering
 - **Multiple visualization modes** for different physics phenomena
-- **Assembly-optimized math** using x86-64 SIMD instructions for critical physics calculations
+- **⚡ Assembly-optimized physics** - All simulations use hand-written x86-64 assembly with SIMD instructions for:
+  - Distance calculations (avoiding expensive sqrt operations)
+  - Vector normalization (unit vectors for directions)
+  - Vector operations (scaling, addition for force calculations)
+  - Gravitational force computations
 
 ## 🛠️ Prerequisites
 

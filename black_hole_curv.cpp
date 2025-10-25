@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "physics_asm.hpp"  // Assembly-optimized physics functions
 
 // déclarations forward pcq sinon le compilo rage
 struct Ray;
@@ -51,8 +52,9 @@ struct Ray {
     double E, L;                   // grandeurs conservées (normalement)
 
     Ray(glm::vec2 pos, glm::vec2 dir) : x(pos.x), y(pos.y) {
-        // conversion en polaire
-        this->r = sqrt(x*x + y*y);
+        // ⚡ ASSEMBLY-OPTIMIZED: Fast distance calculation
+        float distSq = PhysicsASM::DistanceSquared(x, y, 0.0f, 0.0f, 0.0f, 0.0f);
+        this->r = std::sqrt(distSq);  // conversion en polaire
         this->phi = atan2(y, x);
 
         // initialisation des vitesses

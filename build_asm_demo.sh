@@ -1,8 +1,8 @@
 #!/bin/bash
-# Build script for PhysicsASM_Demo
+# Build script for Black Hole Assembly Project - All Executables
 
 echo "╔════════════════════════════════════════════════════════════╗"
-echo "║   Building Assembly-Optimized Physics Demo                ║"
+echo "║   Building Black Hole Assembly-Optimized Project          ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -17,26 +17,49 @@ cd cmake-build-debug
 echo "🔧 Configuring CMake..."
 cmake .. || { echo "❌ CMake configuration failed"; exit 1; }
 
-# Build the assembly demo
+# Build all projects
 echo ""
-echo "🔨 Building PhysicsASM_Demo..."
-make PhysicsASM_Demo || { echo "❌ Build failed"; exit 1; }
+echo "🔨 Building All Projects..."
+echo ""
+echo "  [1/4] Building PhysicsASM_Demo (Assembly test suite)..."
+make PhysicsASM_Demo || { echo "❌ PhysicsASM_Demo build failed"; exit 1; }
 
 echo ""
-echo "✅ Build successful!"
+echo "  [2/4] Building GravitySim (N-body with assembly)..."
+make GravitySim || { echo "❌ GravitySim build failed"; exit 1; }
+
 echo ""
-echo "To run the demo, execute:"
-echo "  ./cmake-build-debug/PhysicsASM_Demo"
+echo "  [3/4] Building BlackHole3D (Ray tracer with assembly)..."
+make BlackHole3D || { echo "❌ BlackHole3D build failed"; exit 1; }
+
 echo ""
-echo "Or run it directly:"
-read -p "Run PhysicsASM_Demo now? (y/n) " -n 1 -r
+echo "  [4/4] Building BlackHole2D (2D lensing with assembly)..."
+make BlackHole2D || { echo "❌ BlackHole2D build failed"; exit 1; }
+
+echo ""
+echo "╔════════════════════════════════════════════════════════════╗"
+echo "║                 ✅ All Builds Successful!                  ║"
+echo "╚════════════════════════════════════════════════════════════╝"
+echo ""
+echo "Available executables:"
+echo "  1. ./PhysicsASM_Demo  - Assembly function tests (no graphics)"
+echo "  2. ./GravitySim       - N-body simulation (⚡ HEAVY assembly usage)"
+echo "  3. ./BlackHole3D      - 3D ray tracer (⚡ assembly collision detection)"
+echo "  4. ./BlackHole2D      - 2D lensing demo (⚡ assembly coordinates)"
+echo ""
+echo "Would you like to run PhysicsASM_Demo to test assembly functions?"
+read -p "(y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo ""
     echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║              Running PhysicsASM_Demo                       ║"
+    echo "║         Running Assembly Function Tests...                ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
     ./PhysicsASM_Demo
+    echo ""
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  Assembly functions verified! Ready for simulations!       ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
 fi
 

@@ -33,8 +33,11 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
     configure_file(${CMAKE_SOURCE_DIR}/grid.vert ${CMAKE_BINARY_DIR}/grid.vert COPYONLY)
     configure_file(${CMAKE_SOURCE_DIR}/grid.frag ${CMAKE_BINARY_DIR}/grid.frag COPYONLY)
 
-    # 1. BlackHole3D - GPU compute shader ray tracer
-    add_executable(BlackHole3D black_hole_space.cpp
+    # 1. BlackHole3D - GPU compute shader ray tracer (NOW WITH ASSEMBLY!)
+    add_executable(BlackHole3D
+            black_hole_space.cpp
+            physics_asm.s
+            physics_asm.hpp
             common.hpp)
     target_link_libraries(BlackHole3D
             PRIVATE
@@ -44,8 +47,11 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
             glm::glm
     )
 
-    # 2. GravitySim - N-body gravity simulation
-    add_executable(GravitySim gravity_grid.cpp
+    # 2. GravitySim - N-body gravity simulation (NOW WITH ASSEMBLY!)
+    add_executable(GravitySim
+            gravity_grid.cpp
+            physics_asm.s
+            physics_asm.hpp
             common.hpp)
     target_link_libraries(GravitySim
             PRIVATE
@@ -55,8 +61,11 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
             glm::glm
     )
 
-    # 3. BlackHole2D - 2D gravitational lensing demo
-    add_executable(BlackHole2D black_hole_curv.cpp
+    # 3. BlackHole2D - 2D gravitational lensing demo (NOW WITH ASSEMBLY!)
+    add_executable(BlackHole2D
+            black_hole_curv.cpp
+            physics_asm.s
+            physics_asm.hpp
             common.hpp)
     target_link_libraries(BlackHole2D
             PRIVATE
