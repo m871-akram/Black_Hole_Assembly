@@ -4,11 +4,12 @@ A collection of real-time black hole and gravitational physics simulations using
 
 ## 🌌 Overview
 
-This project contains three interactive simulations that demonstrate various aspects of gravitational physics:
+This project contains three interactive simulations that demonstrate various aspects of gravitational physics, plus an assembly-optimized physics computation module:
 
 1. **BlackHole3D** - GPU-accelerated 3D black hole ray tracer with gravitational lensing
 2. **GravitySim** - N-body gravity simulation with real-time particle interactions
 3. **BlackHole2D** - 2D gravitational lensing visualization
+4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly
 
 ## ✨ Features
 
@@ -17,6 +18,7 @@ This project contains three interactive simulations that demonstrate various asp
 - **Interactive controls** for camera movement and simulation parameters
 - **GPU acceleration** for high-performance rendering
 - **Multiple visualization modes** for different physics phenomena
+- **Assembly-optimized math** using x86-64 SIMD instructions for critical physics calculations
 
 ## 🛠️ Prerequisites
 
@@ -108,6 +110,20 @@ A simplified 2D visualization of gravitational lensing effects around a massive 
 - `Mouse` - Interact with simulation
 - `ESC` - Exit
 
+### PhysicsASM_Demo - Assembly-Optimized Physics
+```bash
+./PhysicsASM_Demo
+```
+Demonstration and verification of high-performance physics calculations implemented in x86-64 assembly language with SIMD instructions.
+
+**Features:**
+- Vector operations (add, scale, normalize, dot product)
+- Squared distance calculations (optimized for distance comparisons)
+- Gravitational force computations using Newton's law
+- Performance comparison with standard C++ implementations
+
+**No interactive controls** - Runs automated tests and displays results
+
 ## 📁 Project Structure
 
 ```
@@ -118,6 +134,9 @@ black_hole/
 ├── black_hole_space.cpp     # BlackHole3D implementation
 ├── gravity_grid.cpp         # GravitySim implementation
 ├── black_hole_curv.cpp      # BlackHole2D implementation
+├── physics_asm.s            # Assembly-optimized physics functions (x86-64)
+├── physics_asm.hpp          # C++ interface to assembly functions
+├── physics_asm_demo.cpp     # Demonstration of assembly functions
 ├── geodesic.comp            # Compute shader for geodesic integration
 ├── grid.vert                # Vertex shader for grid rendering
 └── grid.frag                # Fragment shader for grid rendering
@@ -142,6 +161,36 @@ Where M is the black hole mass and r is the radial coordinate.
 - **geodesic.comp** - Implements the geodesic equation solver on the GPU for ray tracing through curved spacetime
 - **grid.vert/frag** - Renders reference grids and visualization overlays
 
+## ⚡ Assembly Optimization Details
+
+The project includes hand-written x86-64 assembly code that optimizes critical mathematical operations used in physics simulations:
+
+### Implemented Functions
+
+1. **vector_distance_squared** - Calculates squared distance between 3D points without expensive sqrt operation
+2. **gravitational_force** - Computes Newton's gravitational force: F = G × m₁ × m₂ / r²
+3. **normalize_vector3** - Normalizes 3D vectors to unit length
+4. **dot_product3** - Calculates dot product of two 3D vectors
+5. **vector_add3** - Adds two 3D vectors
+6. **vector_scale3** - Scales a 3D vector by a scalar
+
+### Performance Features
+
+- **SIMD Instructions**: Uses SSE (Streaming SIMD Extensions) for parallel floating-point operations
+- **Register Optimization**: Minimizes memory access by keeping data in XMM registers
+- **Cache-Friendly**: Optimized memory access patterns for better cache utilization
+- **System V ABI**: Follows standard calling convention for macOS/Linux compatibility
+
+### Architecture
+
+- **Target**: x86-64 (Intel/AMD 64-bit processors)
+- **Instruction Set**: SSE (subss, mulss, addss, sqrtss, etc.)
+- **Calling Convention**: System V AMD64 ABI
+- **Platform**: macOS and Linux
+
+The assembly implementation demonstrates low-level optimization techniques that can provide significant performance improvements for computationally intensive physics simulations, especially when processing large numbers of particles or objects in real-time.
+
+## 🛠️ Troubleshooting
 
 ### "GLEW initialization failed"
 Ensure your graphics drivers are up to date and support OpenGL 3.3 or higher.
@@ -163,6 +212,9 @@ Check that shader files (`.comp`, `.vert`, `.frag`) are in the same directory as
 - [Schwarzschild Metric](https://en.wikipedia.org/wiki/Schwarzschild_metric)
 - [Gravitational Lensing](https://en.wikipedia.org/wiki/Gravitational_lens)
 - [OpenGL Compute Shaders](https://www.khronos.org/opengl/wiki/Compute_Shader)
+- [x86-64 Assembly Language](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
+- [SSE Instructions Reference](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html)
+- [System V AMD64 ABI](https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf)
 
 
 
