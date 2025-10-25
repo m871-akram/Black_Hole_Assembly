@@ -16,9 +16,9 @@
 
 This document provides an in-depth explanation of the physics principles implemented across the three simulation programs in this project:
 
-- **BlackHole3D**: Ray tracing through curved spacetime using the full geodesic equations
-- **BlackHole2D**: 2D visualization of light deflection around a black hole
-- **GravitySim**: Classical Newtonian N-body gravitational simulation
+- **BlackHole_space**: Ray tracing through curved spacetime using the full geodesic equations
+- **BlackHole_curv**: 2D visualization of light deflection around a black hole
+- **Gravity_Grid**: Classical Newtonian N-body gravitational simulation
 
 Each simulation demonstrates different aspects of gravitational physics, from classical mechanics to general relativistic effects.
 
@@ -314,7 +314,7 @@ The 3D simulation traces rays backward from the camera through spacetime:
 
 ### Newtonian Gravity
 
-The GravitySim program uses classical Newtonian gravity. The gravitational force between two masses is:
+The Gravity_Grid program uses classical Newtonian gravity. The gravitational force between two masses is:
 
 ```
 F = G·m₁·m₂/r²
@@ -395,13 +395,13 @@ In an isolated system:
 #### Cartesian Coordinates (x, y, z)
 Used for:
 - Camera positioning and movement
-- Object positions in GravitySim
+- Object positions in Gravity_Grid
 - Final rendering
 
 #### Spherical Coordinates (r, θ, φ)
 Used for:
 - Schwarzschild metric formulation
-- Geodesic integration in BlackHole3D
+- Geodesic integration in BlackHole_space
 - Natural for spherically symmetric problems
 
 Conversion:
@@ -417,12 +417,12 @@ r = √(x² + y² + z²)
 
 #### Polar Coordinates (r, φ) - 2D
 Used for:
-- BlackHole2D simulation
+- BlackHole_curv simulation
 - Simplified visualization
 
 ### GPU Compute Shaders
 
-The BlackHole3D simulation uses OpenGL compute shaders for parallel ray tracing:
+The BlackHole_space simulation uses OpenGL compute shaders for parallel ray tracing:
 
 ```glsl
 #version 430 core

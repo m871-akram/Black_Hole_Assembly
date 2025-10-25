@@ -33,13 +33,13 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
     configure_file(${CMAKE_SOURCE_DIR}/grid.vert ${CMAKE_BINARY_DIR}/grid.vert COPYONLY)
     configure_file(${CMAKE_SOURCE_DIR}/grid.frag ${CMAKE_BINARY_DIR}/grid.frag COPYONLY)
 
-    # 1. BlackHole3D - GPU compute shader ray tracer (NOW WITH ASSEMBLY!)
-    add_executable(BlackHole3D
+    # 1. BlackHole_space - GPU compute shader ray tracer (NOW WITH ASSEMBLY!)
+    add_executable(BlackHole_space
             black_hole_space.cpp
             physics_asm.s
             physics_asm.hpp
             common.hpp)
-    target_link_libraries(BlackHole3D
+    target_link_libraries(BlackHole_space
             PRIVATE
             OpenGL::GL
             GLEW::GLEW
@@ -47,13 +47,13 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
             glm::glm
     )
 
-    # 2. GravitySim - N-body gravity simulation (NOW WITH ASSEMBLY!)
-    add_executable(GravitySim
+    # 2. Gravity_Grid - N-body gravity simulation (NOW WITH ASSEMBLY!)
+    add_executable(Gravity_Grid
             gravity_grid.cpp
             physics_asm.s
             physics_asm.hpp
             common.hpp)
-    target_link_libraries(GravitySim
+    target_link_libraries(Gravity_Grid
             PRIVATE
             OpenGL::GL
             GLEW::GLEW
@@ -61,13 +61,13 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
             glm::glm
     )
 
-    # 3. BlackHole2D - 2D gravitational lensing demo (NOW WITH ASSEMBLY!)
-    add_executable(BlackHole2D
+    # 3. BlackHole_curv - 2D gravitational lensing demo (NOW WITH ASSEMBLY!)
+    add_executable(BlackHole_curv
             black_hole_curv.cpp
             physics_asm.s
             physics_asm.hpp
             common.hpp)
-    target_link_libraries(BlackHole2D
+    target_link_libraries(BlackHole_curv
             PRIVATE
             OpenGL::GL
             GLEW::GLEW
@@ -87,9 +87,9 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
     message(STATUS "GLFW3: Found")
     message(STATUS "GLM: Found")
     message(STATUS "Executables to build:")
-    message(STATUS "  - BlackHole3D (GPU Compute Shader)")
-    message(STATUS "  - GravitySim (N-body)")
-    message(STATUS "  - BlackHole2D (2D Demo)")
+    message(STATUS "  - BlackHole_space (GPU Compute Shader)")
+    message(STATUS "  - Gravity_Grid (N-body)")
+    message(STATUS "  - BlackHole_curv (2D Demo)")
     message(STATUS "  - PhysicsASM_Demo (Assembly-Optimized Physics)")
 else()
     message(STATUS "Graphics libraries: Not all found")

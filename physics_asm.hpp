@@ -3,118 +3,71 @@
 
 #include <cstddef>
 
-// ============================================================================
-// C++ Interface to Assembly-Optimized Physics Functions
-// ============================================================================
-// This header provides a clean C++ interface to the high-performance
-// assembly implementations of mathematical operations for physics simulations.
-//
-// All functions use x86-64 SIMD instructions (SSE) for optimal performance.
-// ============================================================================
+// Interface C++ pour les fonctions assembleur ultra-optimisées
+// Bon bah là c'est simple, on a écrit tout en ASM x86-64 avec SSE
+// pcq les calculs physiques ça doit aller VITE sinon ça lag
+// genre flemme d'attendre que le CPU fasse les calculs un par un
 
 extern "C" {
-    /**
-     * Calculate the squared distance between two 3D points.
-     * This avoids the expensive square root operation when only comparing distances.
-     *
-     * @param x1, y1, z1 - Coordinates of first point
-     * @param x2, y2, z2 - Coordinates of second point
-     * @return Squared distance: (x2-x1)² + (y2-y1)² + (z2-z1)²
-     */
+    // Calcule la distance au carré entre deux points 3D
+    // On évite le sqrt() pcq c'est ultra lent, on garde r² c'est suffisant
+    // pour comparer les distances (genre qui est plus proche)
     float vector_distance_squared(float x1, float y1, float z1,
                                    float x2, float y2, float z2);
 
-    /**
-     * Calculate gravitational force magnitude using Newton's law of universal gravitation.
-     * F = G * m1 * m2 / r²
-     *
-     * @param mass1 - Mass of first object
-     * @param mass2 - Mass of second object
-     * @param distance_squared - Squared distance between objects
-     * @return Gravitational force magnitude
-     */
+    // Force gravitationnelle selon Newton : F = G * m1 * m2 / r²
+    // Bon là faut que les masses soient en kg et distance en m sinon ça donne nawak
     float gravitational_force(float mass1, float mass2, float distance_squared);
 
-    /**
-     * Normalize a 3D vector (make its length equal to 1).
-     * Modifies the vector in place.
-     *
-     * @param vector - Pointer to 3-element float array [x, y, z]
-     */
+    // Normalise un vecteur 3D (met sa longueur à 1)
+    // Attention ça modifie le vecteur direct, pas de copie donc
     void normalize_vector3(float* vector);
 
-    /**
-     * Calculate the dot product of two 3D vectors.
-     * result = v1 · v2 = x1*x2 + y1*y2 + z1*z2
-     *
-     * @param v1 - Pointer to first vector [x, y, z]
-     * @param v2 - Pointer to second vector [x, y, z]
-     * @return Dot product value
-     */
+    // Produit scalaire de deux vecteurs 3D
+    // résultat = v1 · v2 = x1*x2 + y1*y2 + z1*z2
+    // pratique pour calculer les angles et tout
     float dot_product3(const float* v1, const float* v2);
 
-    /**
-     * Add two 3D vectors: result = v1 + v2
-     *
-     * @param v1 - Pointer to first vector [x, y, z]
-     * @param v2 - Pointer to second vector [x, y, z]
-     * @param result - Pointer to output vector [x, y, z]
-     */
+    // Addition de deux vecteurs 3D : result = v1 + v2
+    // basique mais optimisé en ASM donc ça va super vite
     void vector_add3(const float* v1, const float* v2, float* result);
 
-    /**
-     * Scale a 3D vector by a scalar: result = v * scalar
-     *
-     * @param v - Pointer to input vector [x, y, z]
-     * @param scalar - Scaling factor
-     * @param result - Pointer to output vector [x, y, z]
-     */
+    // Multiplie un vecteur par un scalaire : result = v * scalar
+    // genre pour appliquer une force ou changer la vitesse
     void vector_scale3(const float* v, float scalar, float* result);
 }
 
-// ============================================================================
-// C++ Wrapper Class for Convenient Usage
-// ============================================================================
+// Namespace C++ pour utiliser les fonctions plus facilement
+// Genre au lieu d'appeler vector_distance_squared() t'appelles PhysicsASM::DistanceSquared()
+// c'est juste des wrappers mais ça fait propre
 namespace PhysicsASM {
-    /**
-     * Calculate squared distance between two 3D points (wrapper for convenience).
-     */
+    // Calcule la distance au carré (wrapper pour faire classe)
     inline float DistanceSquared(float x1, float y1, float z1,
                                   float x2, float y2, float z2) {
         return vector_distance_squared(x1, y1, z1, x2, y2, z2);
     }
 
-    /**
-     * Calculate gravitational force (wrapper for convenience).
-     */
+    // Force gravitationnelle (wrapper aussi)
     inline float GravitationalForce(float mass1, float mass2, float distSq) {
         return gravitational_force(mass1, mass2, distSq);
     }
 
-    /**
-     * Normalize a 3D vector (wrapper for convenience).
-     */
+    // Normalise un vecteur (devine quoi, c'est un wrapper mdr)
     inline void Normalize(float* vec) {
         normalize_vector3(vec);
     }
 
-    /**
-     * Calculate dot product (wrapper for convenience).
-     */
+    // Produit scalaire entre deux vecteurs (t'as capté c'est un wrapper)
     inline float DotProduct(const float* v1, const float* v2) {
         return dot_product3(v1, v2);
     }
 
-    /**
-     * Add two vectors (wrapper for convenience).
-     */
+    // Additionne deux vecteurs (ouais encore un wrapper lol)
     inline void VectorAdd(const float* v1, const float* v2, float* result) {
         vector_add3(v1, v2, result);
     }
 
-    /**
-     * Scale a vector (wrapper for convenience).
-     */
+    // Multiplie un vecteur par un scalaire (dernier wrapper promis)
     inline void VectorScale(const float* v, float scalar, float* result) {
         vector_scale3(v, scalar, result);
     }

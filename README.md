@@ -6,13 +6,13 @@ A collection of real-time black hole and gravitational physics simulations using
 
 This project contains three interactive simulations that demonstrate various aspects of gravitational physics, **all enhanced with assembly-optimized physics calculations**:
 
-1. **BlackHole3D** - GPU-accelerated 3D black hole ray tracer with gravitational lensing  
+1. **BlackHole_space** - GPU-accelerated 3D black hole ray tracer with gravitational lensing  
    ⚡ *Uses assembly for distance checks and collision detection*
    
-2. **GravitySim** - N-body gravity simulation with real-time particle interactions  
+2. **Gravity_Grid** - N-body gravity simulation with real-time particle interactions  
    ⚡ *Uses assembly for distance calculations, vector normalization, and force computations*
    
-3. **BlackHole2D** - 2D gravitational lensing visualization  
+3. **BlackHole_curv** - 2D gravitational lensing visualization  
    ⚡ *Uses assembly for fast distance calculations in polar coordinates*
    
 4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly  
@@ -88,9 +88,9 @@ make
 
 ## 🎮 Running the Simulations
 
-### BlackHole3D - 3D Ray Tracer
+### BlackHole_space - 3D Ray Tracer
 ```bash
-./BlackHole3D
+./BlackHole_space
 ```
 Experience real-time ray tracing through curved spacetime around a black hole. Watch light bend and see the iconic accretion disk distortion.
 
@@ -100,9 +100,9 @@ Experience real-time ray tracing through curved spacetime around a black hole. W
 - `Mouse` - Look around
 - `ESC` - Exit
 
-### GravitySim - N-Body Simulation
+### Gravity_Grid - N-Body Simulation
 ```bash
-./GravitySim
+./Gravity_Grid
 ```
 Simulate gravitational interactions between multiple bodies. Observe orbital mechanics and gravitational attraction in action.
 
@@ -111,9 +111,9 @@ Simulate gravitational interactions between multiple bodies. Observe orbital mec
 - `Scroll` - Zoom in/out
 - `ESC` - Exit
 
-### BlackHole2D - 2D Lensing Demo
+### BlackHole_curv - 2D Lensing Demo
 ```bash
-./BlackHole2D
+./BlackHole_curv
 ```
 A simplified 2D visualization of gravitational lensing effects around a massive object.
 
@@ -142,9 +142,9 @@ black_hole/
 ├── CMakeLists.txt           # Build configuration
 ├── README.md                # This file
 ├── common.hpp               # Shared utilities and definitions
-├── black_hole_space.cpp     # BlackHole3D implementation
-├── gravity_grid.cpp         # GravitySim implementation
-├── black_hole_curv.cpp      # BlackHole2D implementation
+├── black_hole_space.cpp     # BlackHole_space implementation
+├── gravity_grid.cpp         # Gravity_Grid implementation
+├── black_hole_curv.cpp      # BlackHole_curv implementation
 ├── physics_asm.s            # Assembly-optimized physics functions (x86-64)
 ├── physics_asm.hpp          # C++ interface to assembly functions
 ├── physics_asm_demo.cpp     # Demonstration of assembly functions
