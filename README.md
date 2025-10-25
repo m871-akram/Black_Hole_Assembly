@@ -70,23 +70,39 @@ sudo pacman -S cmake glew glfw-x11 glm
 
 ## 🚀 Building
 
-1. Clone the repository:
+### Quick Build (Recommended)
+
+The easiest way to build and run is using the provided script:
+
 ```bash
 git clone <repository-url>
-cd black_hole
+cd Black_Hole_Assembly
+chmod +x build_and_run.sh
+./build_and_run.sh
 ```
 
-2. Create a build directory and compile:
+The script will:
+1. ✅ Create the build directory
+2. ✅ Configure CMake
+3. ✅ Build all executables (PhysicsASM_Demo, Gravity_Grid, BlackHole_space, BlackHole_curv)
+4. ✅ Show an interactive menu to run any simulation
+
+### Manual Build (Alternative)
+
+If you prefer to build manually:
+
 ```bash
-mkdir -p build
-cd build
+mkdir -p cmake-build-debug
+cd cmake-build-debug
 cmake ..
 make
 ```
 
-3. The executables will be built in the `build` directory.
+The executables will be in the `cmake-build-debug` directory.
 
 ## 🎮 Running the Simulations
+
+**Note:** If you used `build_and_run.sh`, an interactive menu will appear automatically. Otherwise, run the executables manually from the `cmake-build-debug` directory:
 
 ### BlackHole_space - 3D Ray Tracer
 ```bash
