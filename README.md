@@ -81,11 +81,6 @@ chmod +x build_and_run.sh
 ./build_and_run.sh
 ```
 
-The script will:
-1. ✅ Create the build directory
-2. ✅ Configure CMake
-3. ✅ Build all executables (PhysicsASM_Demo, Gravity_Grid, BlackHole_space, BlackHole_curv)
-4. ✅ Show an interactive menu to run any simulation
 
 ### Manual Build (Alternative)
 

@@ -1,19 +1,5 @@
 # Black Hole Assembly - Project Architecture
 
-Complete architectural documentation for the Black Hole Assembly simulation project.
-
----
-
-## Table of Contents
-
-1. [Project Overview](#project-overview)
-2. [System Architecture](#system-architecture)
-3. [Component Overview](#component-overview)
-4. [Technology Stack](#technology-stack)
-5. [Data Flow](#data-flow)
-6. [Build System](#build-system)
-7. [Directory Structure](#directory-structure)
-
 ---
 
 ## Project Overview
@@ -34,14 +20,6 @@ Complete architectural documentation for the Black Hole Assembly simulation proj
   - **CUDA** (Linux/Windows, potential extension)
   - **Vulkan-compute** (optional, cross-platform)
 
-### Project Goals
-
-1. **Education** - Demonstrate advanced programming concepts across multiple domains
-2. **Performance** - Showcase optimization techniques from assembly to GPU compute
-3. **Visualization** - Create stunning, physically accurate black hole visualizations
-4. **Portfolio** - Highlight diverse programming skills for technical interviews
-
----
 
 ## System Architecture
 
@@ -188,30 +166,6 @@ Complete architectural documentation for the Black Hole Assembly simulation proj
   - Procedural effects
   - Compute-based physics simulation
 
-### 4. Build System
-
-#### **CMake**
-- **Version**: 3.10+
-- **Languages**: C++17, Assembly (ASM)
-- **Targets**:
-  - `PhysicsASM_Demo` - Assembly test suite
-  - `Gravity_Grid` - N-body simulation
-  - `BlackHole_space` - 3D ray tracer
-  - `BlackHole_curv` - 2D lensing demo
-- **Features**:
-  - Multi-language support (C++, ASM)
-  - Optional dependency handling
-  - Platform detection (macOS/Linux)
-  - Build configuration messages
-
-#### **Build Script** (`build_and_run.sh`)
-- **Purpose**: Automated build and execution
-- **Features**:
-  - CMake configuration
-  - Parallel compilation
-  - Build verification
-  - Interactive simulation launcher
-  - Error handling and reporting
 
 ---
 
@@ -236,13 +190,6 @@ Complete architectural documentation for the Black Hole Assembly simulation proj
 | **GLEW** | 2.x | OpenGL extension loading |
 | **GLM** | Optional | Math library (if used) |
 
-### Development Tools
-
-- **Compiler**: GCC 7+ or Clang 10+
-- **Assembler**: GNU Assembler (GAS)
-- **Build System**: CMake 3.10+
-- **IDE**: JetBrains CLion (or any C++ IDE)
-- **Version Control**: Git
 
 ### Platform Support
 
@@ -893,23 +840,4 @@ src/
    - Web assembly (via Emscripten)
    - Vulkan rendering
    - Windows support (MASM assembly)
-
----
-
-## Conclusion
-
-The Black Hole Assembly project demonstrates a comprehensive understanding of:
-- **Systems programming** (C++, Assembly, GPU)
-- **Computer graphics** (OpenGL, shaders, ray tracing)
-- **Physics simulation** (N-body, general relativity)
-- **Software engineering** (architecture, build systems, documentation)
-- **Performance optimization** (assembly, SIMD, GPU compute)
-
-The architecture is designed to be modular, performant, and educational, making it an excellent portfolio piece for demonstrating advanced programming skills.
-
----
-
-**Author:** Mohammed Akram Lrhorfi  
-**Date:** October 2025  
-**License:** Educational/Portfolio Project
 

@@ -1,32 +1,13 @@
 # Assembly Implementation Guide
 
-Complete documentation for the assembly-optimized physics module in the Black Hole Assembly project.
 
----
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Implementation Details](#implementation-details)
-3. [Syntax Conversion (Intel → AT&T)](#syntax-conversion)
-4. [Build Instructions](#build-instructions)
-5. [Skills Demonstrated](#skills-demonstrated)
-6. [Integration Guide](#integration-guide)
 
 ---
 
 ## Overview
 
-This project includes **hand-written x86-64 assembly language** implementations for critical physics calculations, showcasing advanced low-level programming skills and optimization techniques.
+This project includes **hand-written x86-64 assembly language** implementations for critical physics calculations.
 
-### Key Features
-
-- ✅ **280+ lines** of hand-written x86-64 assembly code
-- ✅ **SSE SIMD instructions** for parallel floating-point operations
-- ✅ **6 optimized physics functions** with full test coverage
-- ✅ **System V AMD64 ABI compliant** (macOS/Linux compatible)
-- ✅ **AT&T/GAS syntax** for GCC compatibility
-- ✅ **Professional documentation** and integration examples
 
 ### Files Created
 
@@ -146,73 +127,7 @@ Scalar multiplication of 3D vector.
 - `ucomiss` - Unordered compare (for zero checks)
 - XMM registers (xmm0-xmm6) for efficient data handling
 
-**Performance Benefits:**
-- ✅ Direct hardware control - No compiler overhead
-- ✅ Register optimization - Data stays in fast XMM registers
-- ✅ SIMD ready - Easy to expand to packed operations (AVX)
-- ✅ Predictable timing - Exact instruction count
-- ✅ Cache efficient - Minimal memory access
 
-**Code Quality:**
-- ✅ Optimized register usage with XMM registers
-- ✅ Cache-friendly memory access patterns
-- ✅ Proper function declarations (`.type`, `.size`)
-- ✅ Position-independent code (RIP-relative addressing)
-- ✅ Non-executable stack marker
-- ✅ Comprehensive inline comments
-
----
-
-## Syntax Conversion
-
-The assembly code was originally written in **Intel/NASM syntax** but has been converted to **AT&T/GAS syntax** for GCC compatibility on Linux/macOS.
-
-### Key Differences
-
-| Feature | Intel/NASM | AT&T/GAS |
-|---------|------------|----------|
-| **Comments** | `;` | `/* */` or `#` |
-| **Registers** | `xmm0`, `rdi` | `%xmm0`, `%rdi` (with `%` prefix) |
-| **Operand Order** | `mov dest, src` | `mov src, dest` (**REVERSED**) |
-| **Memory Access** | `[rdi]`, `[rdi + 4]` | `(%rdi)`, `4(%rdi)` |
-| **Immediates** | `mov rax, 5` | `movq $5, %rax` (with `$` prefix) |
-| **Directives** | `section .text`, `global _func` | `.text`, `.globl func` |
-| **Function Names** | `_funcname` (macOS) | `funcname` (Linux) |
-
-### Example Transformation
-
-**Before (Intel/NASM syntax):**
-```asm
-_vector_distance_squared:
-    subss   xmm3, xmm0      ; dx = x2 - x1
-    mulss   xmm3, xmm3      ; dx^2
-    movss   xmm0, xmm3      ; return result
-    ret
-```
-
-**After (AT&T/GAS syntax):**
-```asm
-vector_distance_squared:
-    subss   %xmm0, %xmm3    /* dx = x2 - x1 */
-    mulss   %xmm3, %xmm3    /* dx^2 */
-    movss   %xmm3, %xmm0    /* return result */
-    ret
-```
-
-### What Was Fixed
-
-1. ✅ Changed comments from `;` to `/* */`
-2. ✅ Added `%` prefix to all registers
-3. ✅ Reversed operand order (source, destination)
-4. ✅ Changed memory syntax from `[reg]` to `(%reg)`
-5. ✅ Changed directives from `section .text` to `.text`
-6. ✅ Changed `global` to `.globl`
-7. ✅ Removed `_` prefix from function names (Linux compatibility)
-8. ✅ Added `.type` and `.size` directives for proper symbol table
-9. ✅ Changed label syntax from `.label:` to `.Llabel:` for local labels
-10. ✅ Fixed data section from `dd` to `.float`
-
-**Technical Note:** AT&T syntax is the default for GNU tools (GCC, GAS) and is widely used in Unix/Linux systems. Intel syntax is more common in Windows environments and with assemblers like NASM and MASM. The System V AMD64 ABI (calling convention) remains the same regardless of syntax.
 
 ---
 
@@ -296,45 +211,7 @@ The assembly code works on:
 - ✅ **macOS** with Clang
 - ❌ **Windows** requires different syntax (MASM/NASM)
 
----
 
-## Skills Demonstrated
-
-### Low-Level Programming
-- ✅ **x86-64 Assembly Language** - Hand-written, production-quality code
-- ✅ **SSE SIMD Instructions** - Parallel floating-point operations
-- ✅ **Register Management** - Efficient use of XMM0-XMM6 registers
-- ✅ **System V ABI** - Platform calling convention compliance
-- ✅ **Floating-Point Arithmetic** - Precise numerical operations
-
-### Performance Engineering
-- ✅ **Cache-Friendly Code** - Optimized memory access patterns
-- ✅ **Register-Level Optimization** - Keeping data in fast registers
-- ✅ **Avoiding Expensive Operations** - Using distance² instead of distance
-- ✅ **Hardware Control** - Direct CPU instruction selection
-- ✅ **SIMD Ready** - Scalable to packed operations
-
-### Software Architecture
-- ✅ **C/Assembly Interoperability** - Clean extern C interfaces
-- ✅ **API Design** - Intuitive function signatures
-- ✅ **Build System Integration** - CMake with multiple languages
-- ✅ **Cross-Platform Development** - Linux/macOS compatibility
-- ✅ **Modular Design** - Separate interface and implementation
-
-### Testing & Validation
-- ✅ **Comprehensive Test Suite** - Full function coverage
-- ✅ **Comparison Testing** - Validation against C++ implementations
-- ✅ **Edge Case Handling** - Zero vectors, extreme values
-- ✅ **Professional Output** - Clear, formatted test results
-
-### Professional Development
-- ✅ **Multiple Syntax Proficiency** - Intel → AT&T conversion
-- ✅ **Debugging Skills** - Compiler error diagnosis and resolution
-- ✅ **Platform Awareness** - Understanding GCC vs NASM differences
-- ✅ **Documentation** - Clear comments, guides, and examples
-- ✅ **Code Quality** - Industry-standard practices
-
----
 
 ## Integration Guide
 
@@ -493,7 +370,6 @@ Black_Hole_Assembly/
 
 ---
 
-## Elevator Pitch
 
 *"I implemented high-performance physics calculations in hand-written x86-64 assembly using SSE SIMD instructions. The module includes vector operations, gravitational force computations, and is integrated into a real-time physics simulation. It demonstrates low-level optimization, cross-language integration, and follows industry-standard calling conventions."*
 
@@ -534,13 +410,4 @@ as physics_asm.s -o test.o
 # Run tests
 cd cmake-build-debug && ./PhysicsASM_Demo
 ```
-
----
-
-**Built with:** x86-64 Assembly, SSE, C++17, CMake  
-**Platform:** macOS / Linux  
-**Author:** Mohammed Akram Lrhorfi  
-**Date:** October 2025
-
-🎊 **Portfolio-ready code demonstrating advanced programming skills!** 🎊
 

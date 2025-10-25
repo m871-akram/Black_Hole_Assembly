@@ -4,7 +4,7 @@
  * This file implements optimized mathematical operations for gravitational
  * physics simulations using SIMD instructions (SSE).
  *
- * Author: Mohammed Akram Lrhorfi
+ * Author: M087-AKRAM
  * Target: x86-64 (Linux/macOS)
  * Syntax: AT&T (GNU Assembler)
  * Calling Convention: System V AMD64 ABI
