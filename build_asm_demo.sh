@@ -41,25 +41,88 @@ echo "╔═══════════════════════�
 echo "║                 ✅ All Builds Successful!                  ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
-echo "Available executables:"
-echo "  1. ./PhysicsASM_Demo  - Assembly function tests (no graphics)"
-echo "  2. ./GravitySim       - N-body simulation (⚡ HEAVY assembly usage)"
-echo "  3. ./BlackHole3D      - 3D ray tracer (⚡ assembly collision detection)"
-echo "  4. ./BlackHole2D      - 2D lensing demo (⚡ assembly coordinates)"
+echo "╔════════════════════════════════════════════════════════════╗"
+echo "║              Which simulation to run?                      ║"
+echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
-echo "Would you like to run PhysicsASM_Demo to test assembly functions?"
-read -p "(y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║         Running Assembly Function Tests...                ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
-    echo ""
-    ./PhysicsASM_Demo
-    echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  Assembly functions verified! Ready for simulations!       ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
-fi
+echo "Choose an option:"
+echo "  1) PhysicsASM_Demo  - Test assembly functions (quick, no graphics)"
+echo "  2) GravitySim       - N-body simulation (⚡ BEST SHOWCASE)"
+echo "  3) BlackHole3D      - 3D ray tracer (requires OpenGL 4.3+)"
+echo "  4) BlackHole2D      - 2D lensing demo"
+echo "  5) Exit (run manually later)"
+echo ""
+read -p "Enter choice [1-5]: " choice
+
+case $choice in
+    1)
+        echo ""
+        echo "╔════════════════════════════════════════════════════════════╗"
+        echo "║         Running Assembly Function Tests...                ║"
+        echo "╚════════════════════════════════════════════════════════════╝"
+        echo ""
+        ./PhysicsASM_Demo
+        echo ""
+        echo "✅ Assembly tests complete! All functions working."
+        ;;
+    2)
+        echo ""
+        echo "╔════════════════════════════════════════════════════════════╗"
+        echo "║           Running GravitySim (N-body Physics)             ║"
+        echo "╚════════════════════════════════════════════════════════════╝"
+        echo ""
+        echo "Controls:"
+        echo "  - Mouse Drag: Rotate camera"
+        echo "  - Scroll: Zoom in/out"
+        echo "  - SPACE: Pause/unpause"
+        echo "  - ESC: Exit"
+        echo ""
+        echo "⚡ Every physics calculation uses assembly!"
+        echo ""
+        sleep 2
+        ./GravitySim
+        ;;
+    3)
+        echo ""
+        echo "╔════════════════════════════════════════════════════════════╗"
+        echo "║          Running BlackHole3D (3D Ray Tracer)              ║"
+        echo "╚════════════════════════════════════════════════════════════╝"
+        echo ""
+        echo "Controls:"
+        echo "  - Mouse Drag: Rotate camera"
+        echo "  - Scroll: Zoom in/out"
+        echo "  - G: Toggle gravity effects"
+        echo "  - ESC: Exit"
+        echo ""
+        echo "⚡ Assembly-optimized collision detection!"
+        echo ""
+        sleep 2
+        ./BlackHole3D
+        ;;
+    4)
+        echo ""
+        echo "╔════════════════════════════════════════════════════════════╗"
+        echo "║        Running BlackHole2D (2D Lensing Demo)              ║"
+        echo "╚════════════════════════════════════════════════════════════╝"
+        echo ""
+        echo "Controls:"
+        echo "  - Mouse: Interact"
+        echo "  - ESC: Exit"
+        echo ""
+        echo "⚡ Assembly-optimized coordinate conversion!"
+        echo ""
+        sleep 2
+        ./BlackHole2D
+        ;;
+    5|*)
+        echo ""
+        echo "To run simulations manually:"
+        echo "  cd cmake-build-debug"
+        echo "  ./PhysicsASM_Demo    # Test assembly (no graphics)"
+        echo "  ./GravitySim         # N-body simulation ⭐"
+        echo "  ./BlackHole3D        # 3D ray tracer"
+        echo "  ./BlackHole2D        # 2D lensing"
+        echo ""
+        ;;
+esac
 
