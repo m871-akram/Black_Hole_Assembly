@@ -85,14 +85,16 @@ gravitational_force:
     /* Load gravitational constant G = 6.67430e-11 */
     movss   grav_const(%rip), %xmm3     /* xmm3 = G */
 
-    /* Calculate m1 * m2 */
-    mulss   %xmm1, %xmm0                /* xmm0 = m1 * m2 */
+    /* Reorder operations to avoid overflow: F = (G * m1 / r^2) * m2 */
 
-    /* Calculate G * m1 * m2 */
-    mulss   %xmm3, %xmm0                /* xmm0 = G * m1 * m2 */
+    /* Calculate G * m1 */
+    mulss   %xmm3, %xmm0                /* xmm0 = G * m1 */
 
-    /* Calculate F = (G * m1 * m2) / r^2 */
-    divss   %xmm2, %xmm0                /* xmm0 = F */
+    /* Calculate (G * m1) / r^2 */
+    divss   %xmm2, %xmm0                /* xmm0 = (G * m1) / r^2 */
+
+    /* Calculate F = ((G * m1) / r^2) * m2 */
+    mulss   %xmm1, %xmm0                /* xmm0 = F */
 
     ret
     .size gravitational_force, .-gravitational_force
