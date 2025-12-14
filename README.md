@@ -1,44 +1,30 @@
 # Black Hole Simulation
 
-A collection of real-time black hole and gravitational physics simulations using OpenGL compute shaders and C++.
-
-## 🌌 Overview
 
 This project contains three interactive simulations that demonstrate various aspects of gravitational physics, **all enhanced with assembly-optimized physics calculations**:
 
 1. **BlackHole_space** - GPU-accelerated 3D black hole ray tracer with gravitational lensing  
-   ⚡ *Uses assembly for distance checks and collision detection*
+    *Uses assembly for distance checks and collision detection*
    
 2. **Gravity_Grid** - N-body gravity simulation with real-time particle interactions  
-   ⚡ *Uses assembly for distance calculations, vector normalization, and force computations*
+    *Uses assembly for distance calculations, vector normalization, and force computations*
    
 3. **BlackHole_curv** - 2D gravitational lensing visualization  
-   ⚡ *Uses assembly for fast distance calculations in polar coordinates*
+    *Uses assembly for fast distance calculations in polar coordinates*
    
 4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly  
-   ⚡ *Standalone demo showing the assembly functions used by all simulations*
+    *Standalone demo showing the assembly functions used by all simulations*
 
-## ✨ Features
 
-- **Real-time ray tracing** using OpenGL compute shaders
-- **Physically accurate** gravitational lensing effects
-- **Interactive controls** for camera movement and simulation parameters
-- **GPU acceleration** for high-performance rendering
-- **Multiple visualization modes** for different physics phenomena
-- **⚡ Assembly-optimized physics** - All simulations use hand-written x86-64 assembly with SIMD instructions for:
-  - Distance calculations (avoiding expensive sqrt operations)
-  - Vector normalization (unit vectors for directions)
-  - Vector operations (scaling, addition for force calculations)
-  - Gravitational force computations
 
-## 🛠️ Prerequisites
+##  Prerequisites
 
 Before building, ensure you have the following dependencies installed:
 
 - **CMake** (version 3.21 or higher)
 - **C++ compiler** with C++17 support
 - **OpenGL** (3.3 or higher)
-  - ⚠️ **Note for macOS users**: macOS caps OpenGL support at version 4.1
+  -  **For macOS**: macOS caps OpenGL support at version 4.1
 - **GLEW** - OpenGL Extension Wrangler Library
 - **GLFW3** - Window and input management
 - **GLM** - OpenGL Mathematics library
@@ -63,16 +49,10 @@ sudo apt-get update
 sudo apt-get install cmake libglew-dev libglfw3-dev libglm-dev
 ```
 
-#### Arch Linux
-```bash
-sudo pacman -S cmake glew glfw-x11 glm
-```
 
-## 🚀 Building
+##  Building
 
-### Quick Build (Recommended)
 
-The easiest way to build and run is using the provided script:
 
 ```bash
 git clone <repository-url>
@@ -82,7 +62,6 @@ chmod +x build_and_run.sh
 ```
 
 
-### Manual Build (Alternative)
 
 If you prefer to build manually:
 
@@ -95,9 +74,9 @@ make
 
 The executables will be in the `cmake-build-debug` directory.
 
-## 🎮 Running the Simulations
+##  Running the Simulations
 
-**Note:** If you used `build_and_run.sh`, an interactive menu will appear automatically. Otherwise, run the executables manually from the `cmake-build-debug` directory:
+
 
 ### BlackHole_space - 3D Ray Tracer
 ```bash
@@ -137,16 +116,9 @@ A simplified 2D visualization of gravitational lensing effects around a massive 
 ./PhysicsASM_Demo
 ```
 Demonstration and verification of high-performance physics calculations implemented in x86-64 assembly language with SIMD instructions.
+displays results
 
-**Features:**
-- Vector operations (add, scale, normalize, dot product)
-- Squared distance calculations (optimized for distance comparisons)
-- Gravitational force computations using Newton's law
-- Performance comparison with standard C++ implementations
-
-**No interactive controls** - Runs automated tests and displays results
-
-## 📁 Project Structure
+##  Project Structure
 
 ```
 black_hole/
@@ -164,58 +136,10 @@ black_hole/
 └── grid.frag                # Fragment shader for grid rendering
 ```
 
-## 🔬 Physics Background
 
-### Gravitational Lensing
-The simulations implement Einstein's general relativity equations to show how massive objects bend spacetime. Light follows geodesics (curved paths) through this warped geometry, creating the lensing effects you see.
 
-### Schwarzschild Black Hole
-The 3D simulation uses the Schwarzschild metric to model a non-rotating black hole:
+##  Troubleshooting
 
-```
-ds² = -(1 - 2M/r)dt² + (1 - 2M/r)⁻¹dr² + r²dΩ²
-```
-
-Where M is the black hole mass and r is the radial coordinate.
-
-## 🎨 Shader Details
-
-- **geodesic.comp** - Implements the geodesic equation solver on the GPU for ray tracing through curved spacetime
-- **grid.vert/frag** - Renders reference grids and visualization overlays
-
-## ⚡ Assembly Optimization Details
-
-The project includes hand-written x86-64 assembly code that optimizes critical mathematical operations used in physics simulations:
-
-### Implemented Functions
-
-1. **vector_distance_squared** - Calculates squared distance between 3D points without expensive sqrt operation
-2. **gravitational_force** - Computes Newton's gravitational force: F = G × m₁ × m₂ / r²
-3. **normalize_vector3** - Normalizes 3D vectors to unit length
-4. **dot_product3** - Calculates dot product of two 3D vectors
-5. **vector_add3** - Adds two 3D vectors
-6. **vector_scale3** - Scales a 3D vector by a scalar
-
-### Performance Features
-
-- **SIMD Instructions**: Uses SSE (Streaming SIMD Extensions) for parallel floating-point operations
-- **Register Optimization**: Minimizes memory access by keeping data in XMM registers
-- **Cache-Friendly**: Optimized memory access patterns for better cache utilization
-- **System V ABI**: Follows standard calling convention for macOS/Linux compatibility
-
-### Architecture
-
-- **Target**: x86-64 (Intel/AMD 64-bit processors)
-- **Instruction Set**: SSE (subss, mulss, addss, sqrtss, etc.)
-- **Calling Convention**: System V AMD64 ABI
-- **Platform**: macOS and Linux
-
-The assembly implementation demonstrates low-level optimization techniques that can provide significant performance improvements for computationally intensive physics simulations, especially when processing large numbers of particles or objects in real-time.
-
-## 🛠️ Troubleshooting
-
-### "GLEW initialization failed"
-Ensure your graphics drivers are up to date and support OpenGL 3.3 or higher.
 
 
 ### Shader compilation errors
@@ -228,7 +152,7 @@ Check that shader files (`.comp`, `.vert`, `.frag`) are in the same directory as
 - Ensure GPU acceleration is enabled
 
 
-## 📚 References
+##  References
 
 - [General Relativity and Black Holes](https://en.wikipedia.org/wiki/General_relativity)
 - [Schwarzschild Metric](https://en.wikipedia.org/wiki/Schwarzschild_metric)

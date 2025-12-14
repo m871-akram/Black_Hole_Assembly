@@ -18,15 +18,11 @@
 
 using namespace glm;
 
-// ============================================================================
-// SHARED CONSTANTS
-// ============================================================================
+
 const double SPEED_OF_LIGHT = 299792458.0;
 const double GRAVITATIONAL_CONSTANT = 6.67430e-11;
 
-// ============================================================================
-// SHADER UTILITIES
-// ============================================================================
+
 class ShaderUtils {
 public:
     static GLuint CompileShader(const char* source, GLenum type) {
@@ -129,9 +125,7 @@ public:
     }
 };
 
-// ============================================================================
-// GESTIONNAIRE DE FENÊTRE (parce que GLFW c'est relou à setup)
-// ============================================================================
+//  GESTIONNAIRE DE FENÊTRE (parce que GLFW c'est relou à setup)
 class WindowManager {
 public:
     static GLFWwindow* CreateWindow(int width, int height, const char* title,
@@ -176,9 +170,7 @@ public:
     }
 };
 
-// ============================================================================
 // QUAD PLEIN ÉCRAN (pour plaquer une texture sur tout l'écran, du classique)
-// ============================================================================
 class FullScreenQuad {
 private:
     GLuint VAO, VBO;
@@ -250,9 +242,7 @@ public:
     }
 };
 
-// ============================================================================
 // CAMÉRA ORBITALE (pour tourner autour du bordel qu'on simule)
-// ============================================================================
 class OrbitCamera {
 public:
     vec3 target;
@@ -341,7 +331,7 @@ public:
         return perspective(radians(fov), aspectRatio, nearPlane, farPlane);
     }
 
-    // wrappers statiques pcq GLFW aime bien les fonctions C old school
+    // wrappers statiques pcq GLFW aime bien les fonctions C 
     static void RegisterCallbacks(GLFWwindow* window, OrbitCamera* camera) {
         glfwSetWindowUserPointer(window, camera);
 
@@ -362,9 +352,7 @@ public:
     }
 };
 
-// ============================================================================
 // GÉNÉRATEUR DE SPHÈRES (pour faire des boules en 3D tranquille)
-// ============================================================================
 class SphereGenerator {
 public:
     static std::vector<float> GenerateVertices(float radius, int stacks = 25, int sectors = 25) {
@@ -420,9 +408,7 @@ public:
     }
 };
 
-// ============================================================================
-// UTILITAIRES PHYSIQUES (les maths qui font mal au crâne)
-// ============================================================================
+
 class PhysicsUtils {
 public:
     static double CalculateSchwarzschildRadius(double mass) {
@@ -445,4 +431,4 @@ public:
     }
 };
 
-#endif // COMMON_HPP
+#endif 

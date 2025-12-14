@@ -1,5 +1,5 @@
 #include "common.hpp"
-#include "physics_asm.hpp"  // Assembly-optimized physics functions
+#include "physics_asm.hpp"  
 
 // déclarations forward pcq sinon le compilo rage
 struct Ray;

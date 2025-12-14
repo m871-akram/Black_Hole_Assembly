@@ -1,30 +1,6 @@
-# Physics Documentation
-
-## Table of Contents
-1. [Introduction](#introduction)
-2. [General Relativity Fundamentals](#general-relativity-fundamentals)
-3. [Schwarzschild Black Holes](#schwarzschild-black-holes)
-4. [Geodesic Equations](#geodesic-equations)
-5. [Gravitational Lensing](#gravitational-lensing)
-6. [N-Body Gravity Simulation](#n-body-gravity-simulation)
-7. [Implementation Details](#implementation-details)
-8. [Mathematical Derivations](#mathematical-derivations)
-
----
-
-## Introduction
+# Physics Principles and Implementation 
 
 This document provides an in-depth explanation of the physics principles implemented across the three simulation programs in this project:
-
-- **BlackHole_space**: Ray tracing through curved spacetime using the full geodesic equations
-- **BlackHole_curv**: 2D visualization of light deflection around a black hole
-- **Gravity_Grid**: Classical Newtonian N-body gravitational simulation
-
-Each simulation demonstrates different aspects of gravitational physics, from classical mechanics to general relativistic effects.
-
----
-
-## General Relativity Fundamentals
 
 ### Spacetime Curvature
 
@@ -53,7 +29,7 @@ Objects in spacetime follow paths that extremize the proper time:
 
 These paths are called **geodesics** and are determined by the geodesic equation.
 
----
+
 
 ## Schwarzschild Black Holes
 
@@ -117,7 +93,7 @@ bool Intercept(float px, float py, float pz) const {
 }
 ```
 
----
+
 
 ## Geodesic Equations
 
@@ -260,7 +236,7 @@ Where a(x, v) = -Γ^μ_αβ v^α v^β is the acceleration from the geodesic equa
 
 The RK4 method allows us to use larger time steps while maintaining accuracy, crucial for real-time ray tracing through curved spacetime.
 
----
+
 
 ## Gravitational Lensing
 
@@ -308,7 +284,7 @@ The 3D simulation traces rays backward from the camera through spacetime:
 4. **Determine color** based on what the ray hits
 5. **Apply gravitational effects** (lensing, redshift)
 
----
+
 
 ## N-Body Gravity Simulation
 
@@ -386,9 +362,9 @@ In an isolated system:
 
 **Note**: Numerical integration introduces small errors that can violate conservation. Using better integrators (Runge-Kutta 4, symplectic integrators) helps maintain accuracy.
 
----
 
-## Implementation Details
+
+## Implementation 
 
 ### Coordinate Systems
 
@@ -462,7 +438,7 @@ Due to the vast range of scales involved (from meters to astronomical units), ca
 **Schwarzschild radius of Sun**: r_s ≈ 2953 m ≈ 3 km
 **Schwarzschild radius of Sgr A***: r_s ≈ 1.27×10¹⁰ m
 
----
+
 
 ## Mathematical Derivations
 
@@ -519,21 +495,18 @@ dt/dτ = 1/√(1 - r_s/r - v²/c²)
 
 Where τ is proper time and t is coordinate time.
 
----
 
-## References and Further Reading
 
-### Textbooks
-1. **"Gravitation" by Misner, Thorne, and Wheeler** - The bible of general relativity
-2. **"A First Course in General Relativity" by Bernard Schutz** - Excellent introduction
-3. **"General Relativity" by Robert Wald** - Advanced mathematical treatment
+## References 
+
+
 
 ### Papers
 1. Schwarzschild, K. (1916). "On the Gravitational Field of a Mass Point"
 2. Einstein, A. (1915). "The Field Equations of Gravitation"
 3. Chandrasekhar, S. (1983). "The Mathematical Theory of Black Holes"
 
-### Online Resources
+###  Resources
 1. [Einstein's General Relativity - MIT OpenCourseWare](https://ocw.mit.edu/)
 2. [Black Hole Visualization - NASA](https://www.nasa.gov/black-holes)
 3. [Event Horizon Telescope - First Image of a Black Hole](https://eventhorizontelescope.org/)
@@ -542,55 +515,4 @@ Where τ is proper time and t is coordinate time.
 1. **Numerical Recipes** - Standard algorithms for scientific computing
 2. **GPU Gems** series - GPU programming techniques
 3. **OpenGL Compute Shader** - Parallel computing on GPUs
-
----
-
-## Appendix: Equations Summary
-
-### Schwarzschild Metric
-```
-ds² = -(1 - 2GM/(rc²))c²dt² + (1 - 2GM/(rc²))⁻¹dr² + r²dΩ²
-```
-
-### Geodesic Equation
-```
-d²x^μ/dλ² + Γ^μ_αβ (dx^α/dλ)(dx^β/dλ) = 0
-```
-
-### Schwarzschild Radius
-```
-r_s = 2GM/c²
-```
-
-### Newton's Gravitational Force
-```
-F = Gm₁m₂/r² r̂
-```
-
-### Gravitational Acceleration
-```
-a = GM/r² r̂
-```
-
-### Escape Velocity
-```
-v_esc = √(2GM/r)
-```
-
-At r = r_s: v_esc = c (speed of light)
-
-### Orbital Velocity (Circular)
-```
-v_orb = √(GM/r)
-```
-
-### Photon Sphere
-```
-r_photon = 3GM/c² = 1.5r_s
-```
-
-### Light Deflection
-```
-α ≈ 4GM/(bc²)  (weak field approximation)
-```
 

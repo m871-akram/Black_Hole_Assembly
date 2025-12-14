@@ -1,8 +1,6 @@
-# Black Hole Assembly - Project Architecture
+# Black Hole Assembly - Architecture
 
----
 
-## Project Overview
 
 **Black Hole Assembly** is a high-performance physics simulation suite that combines:
 - Real-time gravitational physics simulations
@@ -167,37 +165,8 @@
   - Compute-based physics simulation
 
 
----
-
-## Technology Stack
-
-### Programming Languages
-
-| Language | Usage | Files |
-|----------|-------|-------|
-| **C++17** | Application logic, physics | `*.cpp`, `*.hpp` |
-| **x86-64 Assembly** | Performance-critical math | `physics_asm.s` |
-| **GLSL 4.3** | GPU shaders | `*.vert`, `*.frag`, `*.comp` |
-| **Shell Script** | Build automation | `build_and_run.sh` |
-| **CMake** | Build configuration | `CMakeLists.txt` |
-
-### Libraries & APIs
-
-| Library | Version | Purpose |
-|---------|---------|---------|
-| **OpenGL** | 3.3 - 4.3 | Graphics API |
-| **GLFW** | 3.x | Windowing and input |
-| **GLEW** | 2.x | OpenGL extension loading |
-| **GLM** | Optional | Math library (if used) |
 
 
-### Platform Support
-
-- ✅ **macOS** - Primary development platform
-- ✅ **Linux** - Full compatibility
-- ❌ **Windows** - Requires assembly syntax changes (MASM/NASM)
-
----
 
 ## Data Flow
 
@@ -302,49 +271,7 @@ force_mag ◀─────────┘
 normalized ◀────────┘
 ```
 
----
 
-## Build System
-
-### CMake Configuration
-
-```cmake
-project(Black_Hole_Assembly LANGUAGES CXX ASM)
-
-# C++17 standard
-set(CMAKE_CXX_STANDARD 17)
-
-# Assembly support
-enable_language(ASM)
-
-# Targets:
-# 1. PhysicsASM_Demo - Standalone assembly tests
-add_executable(PhysicsASM_Demo
-    physics_asm_demo.cpp
-    physics_asm.s
-)
-
-# 2. Gravity_Grid - N-body simulation
-add_executable(Gravity_Grid
-    gravity_grid.cpp
-    physics_asm.s
-)
-target_link_libraries(Gravity_Grid OpenGL GLFW GLEW)
-
-# 3. BlackHole_space - 3D ray tracer
-add_executable(BlackHole_space
-    black_hole_space.cpp
-    physics_asm.s
-)
-target_link_libraries(BlackHole_space OpenGL GLFW GLEW)
-
-# 4. BlackHole_curv - 2D lensing
-add_executable(BlackHole_curv
-    black_hole_curv.cpp
-    physics_asm.s
-)
-target_link_libraries(BlackHole_curv OpenGL GLFW GLEW)
-```
 
 ### Build Process
 
@@ -368,96 +295,10 @@ black_hole_curv.cpp  [G++] ──▶ .o      └──▶ [Linker] ──▶ Bla
                                     + OpenGL/GLFW/GLEW
 ```
 
----
 
-## Directory Structure
 
-```
-Black_Hole_Assembly/
-│
-├── 📄 Core C++ Source Files
-│   ├── physics_asm_demo.cpp        # Assembly test suite
-│   ├── gravity_grid.cpp            # N-body simulation (Gravity_Grid)
-│   ├── black_hole_space.cpp        # 3D ray tracer (BlackHole_space)
-│   └── black_hole_curv.cpp         # 2D lensing demo (BlackHole_curv)
-│
-├── 🔥 Assembly Implementation
-│   └── physics_asm.s               # Hand-written x86-64 assembly
-│
-├── 🔌 Headers
-│   ├── physics_asm.hpp             # Assembly function declarations
-│   └── common.hpp                  # Shared utilities and types
-│
-├── 🎨 Shaders (GLSL)
-│   ├── geodesic.comp               # Compute shader for ray tracing
-│   ├── grid.vert                   # Vertex shader
-│   └── grid.frag                   # Fragment shader
-│
-├── ⚙️ Build System
-│   ├── CMakeLists.txt              # CMake configuration
-│   └── build_and_run.sh            # Build and execution script
-│
-├── 📚 Documentation
-│   ├── README.md                   # Project overview
-│   ├── ARCHITECTURE.md             # This file
-│   ├── ASSEMBLY.md                 # Assembly implementation guide
-│   └── PHYSICS.md                  # Physics theory and equations
-│
-└── 🔨 Build Output (generated)
-    └── cmake-build-debug/
-        ├── PhysicsASM_Demo         # Executable: Assembly tests
-        ├── Gravity_Grid            # Executable: N-body simulation
-        ├── BlackHole_space         # Executable: 3D ray tracer
-        ├── BlackHole_curv          # Executable: 2D lensing
-        └── [object files, cmake cache, etc.]
-```
 
----
-
-## Design Patterns & Principles
-
-### Architectural Patterns
-
-1. **Layered Architecture**
-   - Clear separation: Application → Physics → Rendering
-   - Each layer has well-defined interfaces
-   - Lower layers don't depend on upper layers
-
-2. **Component-Based Design**
-   - Physics components are reusable across simulations
-   - Assembly module is completely independent
-   - Shaders are self-contained
-
-3. **Data-Oriented Design**
-   - Structures of arrays for cache efficiency
-   - Minimal object overhead
-   - Assembly optimizations target hot loops
-
-### Design Principles
-
-1. **Performance First**
-   - Assembly for critical paths
-   - GPU compute for parallel workloads
-   - Minimal abstraction overhead
-
-2. **Cross-Platform**
-   - Standard C++17 and OpenGL
-   - Platform-specific code isolated
-   - Build system handles differences
-
-3. **Modularity**
-   - Each simulation is independent
-   - Shared code through headers
-   - Optional dependencies (graphics)
-
-4. **Testability**
-   - PhysicsASM_Demo validates assembly
-   - Comparison with C++ reference implementations
-   - Clear pass/fail criteria
-
----
-
-## Performance Characteristics
+## Performance 
 
 ### Assembly Module
 
@@ -485,7 +326,7 @@ Black_Hole_Assembly/
 - **Typical performance**: 30-60 FPS
 - **Bottleneck**: GPU compute (geodesic integration)
 
----
+
 
 ## CPU/GPU Resource Orchestration
 
@@ -753,22 +594,7 @@ elseif(GPU_BACKEND STREQUAL "CUDA")
 endif()
 ```
 
-### Performance Optimization Checklist
 
-**Must-Have for High Performance:**
-- ✅ At least 2 in-flight batches (double buffering)
-- ✅ Pinned host memory for all GPU transfers
-- ✅ Batched kernel launches (avoid per-item dispatches)
-- ✅ Reuse device buffers (minimize allocator churn)
-- ✅ Profile with GPU timeline tools (Metal System Trace, NVIDIA Nsight, renderdoc)
-- ✅ Verify CPU preprocess doesn't starve GPU
-
-**Advanced Optimizations:**
-- ✅ Triple buffering for ultra-low latency
-- ✅ Workgroup size tuning per kernel
-- ✅ Async copy-compute overlap verification
-- ✅ Memory bandwidth profiling
-- ✅ Cache-friendly data layouts (SoA vs AoS)
 
 ### Component Diagram with GPU Abstraction
 
@@ -786,58 +612,4 @@ endif()
 └─────────────────┘          └────────────────────┘          └──────────────────┘
 ```
 
-### File Organization for Advanced Features
-
-```
-src/
-├── runtime/
-│   ├── scheduler.hpp           # Job graph, batching, backpressure
-│   ├── thread_pool.hpp         # CPU worker threads
-│   └── telemetry.hpp           # Performance counters
-│
-├── gpu/
-│   ├── gpu_context.hpp         # Device, queues, context
-│   ├── buffer_allocator.hpp    # Host/device memory pools
-│   ├── command_list.hpp        # Backend-agnostic command recording
-│   └── backends/
-│       ├── metal_backend.mm    # Metal implementation
-│       ├── cuda_backend.cu     # CUDA implementation
-│       └── gl_backend.cpp      # OpenGL compute implementation
-│
-└── pipeline/
-    ├── preprocess.hpp          # CPU preprocessing stages
-    ├── postprocess.hpp         # CPU postprocessing stages
-    └── stages.hpp              # Pipeline stage definitions
-```
-
----
-
-## Future Extensions
-
-### Potential Enhancements
-
-1. **AVX/AVX2 Support**
-   - Packed operations (4 or 8 floats at once)
-   - Vectorize across multiple bodies
-   - 2-4x speedup potential
-
-2. **Multi-threading**
-   - Parallel force calculations
-   - Worker thread pool
-   - OpenMP or manual threading
-
-3. **Improved Physics**
-   - Barnes-Hut tree for O(n log n)
-   - Kerr metric (rotating black holes)
-   - Adaptive timestep
-
-4. **Enhanced Graphics**
-   - PBR materials
-   - Bloom and HDR
-   - More complex accretion disk model
-
-5. **Additional Platforms**
-   - Web assembly (via Emscripten)
-   - Vulkan rendering
-   - Windows support (MASM assembly)
 

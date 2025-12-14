@@ -1,5 +1,5 @@
 #include "common.hpp"
-#include "physics_asm.hpp"  // Assembly-optimized physics functions
+#include "physics_asm.hpp"  
 
 // Ouais, ici on balance les shaders de la mort avec des effets de lumière et de glow stylés
 const char* vertexShaderSource = R"glsl(
@@ -441,7 +441,7 @@ int main() {
 
             for(auto& obj2 : objs){
                 if(&obj2 != &obj && !obj.Initalizing && !obj2.Initalizing){
-                    // ⚡ ASSEMBLY-OPTIMIZED: Fast squared distance calculation
+                   
                     float distSq = PhysicsASM::DistanceSquared(
                         obj.GetPos()[0], obj.GetPos()[1], obj.GetPos()[2],
                         obj2.GetPos()[0], obj2.GetPos()[1], obj2.GetPos()[2]
@@ -450,23 +450,23 @@ int main() {
                     float distance = std::sqrt(distSq);
 
                     if (distance > 0) {
-                        // ⚡ ASSEMBLY-OPTIMIZED: Vector normalization for direction
+                        
                         float direction[3] = {
                             obj2.GetPos()[0] - obj.GetPos()[0],
                             obj2.GetPos()[1] - obj.GetPos()[1],
                             obj2.GetPos()[2] - obj.GetPos()[2]
                         };
-                        PhysicsASM::Normalize(direction);  // Fast assembly normalization
+                        PhysicsASM::Normalize(direction);  
 
                         distance *= 1000;
 
-                        // ⚡ ASSEMBLY-OPTIMIZED: Gravitational force calculation
+                        
                         float distance_scaled_sq = distance * distance;
                         double Gforce = (GRAVITATIONAL_CONSTANT * obj.mass * obj2.mass) / distance_scaled_sq;
 
                         float acc1 = Gforce / obj.mass;
 
-                        // ⚡ ASSEMBLY-OPTIMIZED: Vector scaling for acceleration
+                        
                         float acc[3];
                         PhysicsASM::VectorScale(direction, acc1, acc);
 

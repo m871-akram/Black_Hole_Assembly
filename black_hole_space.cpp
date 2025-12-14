@@ -1,5 +1,5 @@
 #include "common.hpp"
-#include "physics_asm.hpp"  // Assembly-optimized physics functions
+#include "physics_asm.hpp"  
 #define _USE_MATH_DEFINES
 #include <chrono>
 #ifndef M_PI
