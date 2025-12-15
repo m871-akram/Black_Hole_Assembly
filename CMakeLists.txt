@@ -23,9 +23,6 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
     message(STATUS "All graphics dependencies found - building graphics demos")
 
     
-    include_directories(${OPENGL_INCLUDE_DIR})
-
-    
     configure_file(${CMAKE_SOURCE_DIR}/geodesic.comp ${CMAKE_BINARY_DIR}/geodesic.comp COPYONLY)
     configure_file(${CMAKE_SOURCE_DIR}/grid.vert ${CMAKE_BINARY_DIR}/grid.vert COPYONLY)
     configure_file(${CMAKE_SOURCE_DIR}/grid.frag ${CMAKE_BINARY_DIR}/grid.frag COPYONLY)
@@ -43,6 +40,7 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
             glfw
             glm::glm
     )
+    target_include_directories(BlackHole_space PRIVATE ${OPENGL_INCLUDE_DIR})
 
     
     add_executable(Gravity_Grid
@@ -57,6 +55,7 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
             glfw
             glm::glm
     )
+    target_include_directories(Gravity_Grid PRIVATE ${OPENGL_INCLUDE_DIR})
 
     
     add_executable(BlackHole_curv
@@ -71,6 +70,7 @@ if(OpenGL_FOUND AND GLEW_FOUND AND glfw3_FOUND AND glm_FOUND)
             glfw
             glm::glm
     )
+    target_include_directories(BlackHole_curv PRIVATE ${OPENGL_INCLUDE_DIR})
 else()
     message(STATUS "Some graphics dependencies missing - only building PhysicsASM_Demo")
     message(STATUS "To build graphics demos, install: OpenGL, GLEW, GLFW3, GLM")
