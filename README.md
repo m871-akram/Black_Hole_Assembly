@@ -1,6 +1,6 @@
-# Black Hole Simulation
+# Black Hole Assembly Simulation
 
-[![CMake Build](https://github.com/m871-akram/Black_Hole_Assembly/actions/workflows/build.yml/badge.svg)](https://github.com/m871-akram/Black_Hole_Assembly/actions/workflows/build.yml)
+
 
 This project contains three interactive simulations that demonstrate various aspects of gravitational physics, **all enhanced with assembly-optimized physics calculations**:
 
@@ -16,31 +16,9 @@ This project contains three interactive simulations that demonstrate various asp
 4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly  
     *Standalone demo showing the assembly functions used by all simulations*
 
----
 
-## 📸 Gallery
 
-### 3D Black Hole Ray Tracer (`BlackHole_space`)
-
-> **Coming Soon**: Screenshot showing gravitational lensing effects, light bending around the black hole, and the distorted accretion disk.
-> 
-> _This simulation uses GPU compute shaders for geodesic integration combined with assembly-optimized collision detection._
-
-### N-Body Gravity Simulation (`Gravity_Grid`)
-
-> **Coming Soon**: Screenshot demonstrating multiple bodies orbiting under gravitational influence with real-time physics.
-> 
-> _Every force calculation, distance check, and vector operation runs through hand-written x86-64 assembly with SSE instructions._
-
-### 2D Gravitational Lensing (`BlackHole_curv`)
-
-> **Coming Soon**: Visualization of light paths bending around a massive object in 2D space.
-> 
-> _Assembly-optimized coordinate transformations enable real-time interactive visualization._
-
----
-
-## ⚡ Performance: Assembly vs C++ Scalar
+##  Performance: Assembly vs C++ Scalar
 
 The assembly-optimized physics functions deliver measurable performance improvements over standard C++ scalar implementations:
 
@@ -51,11 +29,11 @@ The assembly-optimized physics functions deliver measurable performance improvem
 | **Gravitational Force** | 2.73 ms | 3.74 ms | 0.73x* |
 | **Dot Product** | 1.28 ms | 3.11 ms | 0.41x* |
 
-_*Benchmark performed on 1 million iterations. Results measured on x86-64 Linux with GCC 13.3.0._
+_Benchmark performed on 1 million iterations. Results measured on x86-64 Linux with GCC 13.3.0._
 
-_*Note: Some operations show slower assembly performance due to function call overhead dominating for simple operations. In real-world simulations where these functions are called millions of times per frame within tight loops, the assembly versions provide better cache utilization and pipelining._
+_Some operations show slower assembly performance due to function call overhead dominating for simple operations. In real-world simulations where these functions are called millions of times per frame within tight loops, the assembly versions provide better cache utilization and pipelining._
 
-### Running the Benchmarks Yourself
+### Running the Benchmarks 
 
 ```bash
 cd cmake-build-debug
@@ -64,7 +42,7 @@ cd cmake-build-debug
 
 ---
 
-##  Prerequisites
+
 
 Before building, ensure you have the following dependencies installed:
 
@@ -97,7 +75,7 @@ sudo apt-get install cmake libglew-dev libglfw3-dev libglm-dev
 ```
 
 
-##  Building
+###  Building
 
 
 
@@ -121,7 +99,7 @@ make
 
 The executables will be in the `cmake-build-debug` directory.
 
-##  Running the Simulations
+##  The Simulations
 
 
 
@@ -193,11 +171,10 @@ Black_Hole_Assembly/
 └── grid.frag                    # Fragment shader (grid rendering)
 ```
 
-> 📋 **For Technical Recruiters:** See [TECHNICAL_HIGHLIGHTS.md](TECHNICAL_HIGHLIGHTS.md) for a detailed breakdown of technical achievements, performance benchmarks, and skills demonstrated.
 
 
 
-##  Troubleshooting
+
 
 
 
