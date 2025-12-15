@@ -25,6 +25,7 @@
  *   %xmm0 = distance au carré (flottant)
  * ============================================================================
  */
+    .globl vector_distance_squared
     .type vector_distance_squared, @function
 vector_distance_squared:
     /* Calcul de dx = x2 - x1 */
@@ -70,6 +71,7 @@ vector_distance_squared:
  *   %xmm0 = magnitude de la force (flottant)
  * ============================================================================
  */
+    .globl gravitational_force
     .type gravitational_force, @function
 gravitational_force:
     /* Chargement de la constante gravitationnelle G = 6.67430e-11 */
@@ -100,6 +102,7 @@ gravitational_force:
  *   void (modifie le vecteur sur place)
  * ============================================================================
  */
+    .globl normalize_vector3
     .type normalize_vector3, @function
 normalize_vector3:
     /* Chargement des composantes du vecteur */
@@ -143,6 +146,9 @@ normalize_vector3:
     divss   %xmm3, %xmm2
     movss   %xmm2, 8(%rdi)
 
+.Lskip_normalize:
+    ret
+    .size normalize_vector3, .-normalize_vector3
 
 /* ============================================================================
  * dot_product3
@@ -156,6 +162,7 @@ normalize_vector3:
  *   %xmm0 = produit scalaire (flottant)
  * ============================================================================
  */
+    .globl dot_product3
     .type dot_product3, @function
 dot_product3:
     /* Chargement du premier vecteur */
@@ -193,6 +200,7 @@ dot_product3:
  *   void (stocke le résultat dans rdx)
  * ============================================================================
  */
+    .globl vector_add3
     .type vector_add3, @function
 vector_add3:
     /* Chargement et addition des composantes x */
@@ -226,6 +234,7 @@ vector_add3:
  *   void (stocke le résultat dans rsi)
  * ============================================================================
  */
+    .globl vector_scale3
     .type vector_scale3, @function
 vector_scale3:
     /* Mise à l'échelle de la composante x */
