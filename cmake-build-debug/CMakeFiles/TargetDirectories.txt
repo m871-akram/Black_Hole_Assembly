@@ -1,3 +1,0 @@
-/home/runner/work/Black_Hole_Assembly/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/PhysicsASM_Demo.dir
-/home/runner/work/Black_Hole_Assembly/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/runner/work/Black_Hole_Assembly/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/rebuild_cache.dir

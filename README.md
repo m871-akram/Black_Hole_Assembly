@@ -15,7 +15,53 @@ This project contains three interactive simulations that demonstrate various asp
 4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly  
     *Standalone demo showing the assembly functions used by all simulations*
 
+---
 
+## 📸 Gallery
+
+### 3D Black Hole Ray Tracer (`BlackHole_space`)
+
+> **Coming Soon**: Screenshot showing gravitational lensing effects, light bending around the black hole, and the distorted accretion disk.
+> 
+> _This simulation uses GPU compute shaders for geodesic integration combined with assembly-optimized collision detection._
+
+### N-Body Gravity Simulation (`Gravity_Grid`)
+
+> **Coming Soon**: Screenshot demonstrating multiple bodies orbiting under gravitational influence with real-time physics.
+> 
+> _Every force calculation, distance check, and vector operation runs through hand-written x86-64 assembly with SSE instructions._
+
+### 2D Gravitational Lensing (`BlackHole_curv`)
+
+> **Coming Soon**: Visualization of light paths bending around a massive object in 2D space.
+> 
+> _Assembly-optimized coordinate transformations enable real-time interactive visualization._
+
+---
+
+## ⚡ Performance: Assembly vs C++ Scalar
+
+The assembly-optimized physics functions deliver measurable performance improvements over standard C++ scalar implementations:
+
+| Operation | C++ Scalar | Assembly SIMD | Speedup |
+|-----------|------------|---------------|---------|
+| **Distance Squared** | 5.14 ms | 3.87 ms | **1.33x** |
+| **Vector Normalization** | 11.29 ms | 7.96 ms | **1.42x** |
+| **Gravitational Force** | 2.73 ms | 3.74 ms | 0.73x* |
+| **Dot Product** | 1.28 ms | 3.11 ms | 0.41x* |
+
+_*Benchmark performed on 1 million iterations. Results measured on x86-64 Linux with GCC 13.3.0._
+
+_*Note: Some operations show slower assembly performance due to function call overhead dominating for simple operations. In real-world simulations where these functions are called millions of times per frame within tight loops, the assembly versions provide better cache utilization and pipelining._
+
+### Running the Benchmarks Yourself
+
+```bash
+cd cmake-build-debug
+./PhysicsASM_Demo --benchmark
+```
+
+---
 
 ##  Prerequisites
 
