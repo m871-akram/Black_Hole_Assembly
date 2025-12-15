@@ -1,5 +1,6 @@
 # Black Hole Simulation
 
+[![CMake Build](https://github.com/m871-akram/Black_Hole_Assembly/actions/workflows/build.yml/badge.svg)](https://github.com/m871-akram/Black_Hole_Assembly/actions/workflows/build.yml)
 
 This project contains three interactive simulations that demonstrate various aspects of gravitational physics, **all enhanced with assembly-optimized physics calculations**:
 
@@ -167,20 +168,32 @@ displays results
 ##  Project Structure
 
 ```
-black_hole/
-├── CMakeLists.txt           # Build configuration
-├── README.md                # This file
-├── common.hpp               # Shared utilities and definitions
-├── black_hole_space.cpp     # BlackHole_space implementation
-├── gravity_grid.cpp         # Gravity_Grid implementation
-├── black_hole_curv.cpp      # BlackHole_curv implementation
-├── physics_asm.s            # Assembly-optimized physics functions (x86-64)
-├── physics_asm.hpp          # C++ interface to assembly functions
-├── physics_asm_demo.cpp     # Demonstration of assembly functions
-├── geodesic.comp            # Compute shader for geodesic integration
-├── grid.vert                # Vertex shader for grid rendering
-└── grid.frag                # Fragment shader for grid rendering
+Black_Hole_Assembly/
+├── .github/
+│   └── workflows/
+│       └── build.yml            # CI/CD: Automated build & test pipeline
+├── CMakeLists.txt               # Modern CMake build configuration
+├── README.md                    # This file
+├── TECHNICAL_HIGHLIGHTS.md      # 📋 Technical overview for recruiters
+├── ARCHITECTURE.md              # System architecture documentation
+├── PHYSICS.md                   # Physics implementation details
+├── .gitignore                   # Build artifacts exclusion
+│
+├── common.hpp                   # Shared utilities (RAII wrappers, camera, shaders)
+├── black_hole_space.cpp         # 3D Ray Tracer with GPU compute shaders
+├── gravity_grid.cpp             # N-body simulation (assembly-optimized)
+├── black_hole_curv.cpp          # 2D gravitational lensing demo
+│
+├── physics_asm.s                # ⚡ Hand-written x86-64 assembly (SIMD)
+├── physics_asm.hpp              # C++ interface to assembly functions
+├── physics_asm_demo.cpp         # Benchmark & validation suite
+│
+├── geodesic.comp                # GPU compute shader (geodesic integration)
+├── grid.vert                    # Vertex shader (grid rendering)
+└── grid.frag                    # Fragment shader (grid rendering)
 ```
+
+> 📋 **For Technical Recruiters:** See [TECHNICAL_HIGHLIGHTS.md](TECHNICAL_HIGHLIGHTS.md) for a detailed breakdown of technical achievements, performance benchmarks, and skills demonstrated.
 
 
 
