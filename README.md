@@ -1,202 +1,175 @@
 # Black Hole Assembly Simulation
 
+A high-performance physics simulation suite combining hand-written assembly, CPU multithreading, and native GPU compute (CUDA / Metal).
 
+---
 
-This project contains three interactive simulations that demonstrate various aspects of gravitational physics, **all enhanced with assembly-optimized physics calculations**:
+## Simulations
 
-1. **BlackHole_space** - GPU-accelerated 3D black hole ray tracer with gravitational lensing  
-    *Uses assembly for distance checks and collision detection*
-   
-2. **Gravity_Grid** - N-body gravity simulation with real-time particle interactions  
-    *Uses assembly for distance calculations, vector normalization, and force computations*
-   
-3. **BlackHole_curv** - 2D gravitational lensing visualization  
-    *Uses assembly for fast distance calculations in polar coordinates*
-   
-4. **PhysicsASM** - High-performance physics calculations written in x86-64 assembly  
-    *Standalone demo showing the assembly functions used by all simulations*
+| Executable | Description | Physics | GPU |
+|---|---|---|---|
+| `PhysicsASM_Demo` | Validates & benchmarks all assembly functions | — | None |
+| `Gravity_Grid` | N-body gravitational simulation | Velocity Verlet, O(n²) | OpenGL 3.3 rendering |
+| `BlackHole_curv` | 2-D gravitational lensing visualization | 2-D polar geodesics | OpenGL 3.3 rendering |
+| `BlackHole_space_cpu` | 3-D black hole ray tracer — CPU backend | Schwarzschild RK4 | OpenGL 3.3 display |
+| `BlackHole_space_cuda` | 3-D black hole ray tracer — NVIDIA GPU | Schwarzschild RK4 | CUDA compute |
+| `BlackHole_space_metal`| 3-D black hole ray tracer — Apple GPU | Schwarzschild (MSL) | Metal compute |
 
+---
 
+## Multi-Architecture Assembly Engine
 
-##  Performance: Assembly vs C++ Scalar
+All physics simulations share a single C++ interface (`physics_asm.hpp`) backed by hand-written assembly optimised for each architecture:
 
-The assembly-optimized physics functions deliver measurable performance improvements over standard C++ scalar implementations:
+| Architecture | Assembly file | Instructions |
+|---|---|---|
+| **x86-64** | `physics_asm.s` | SSE scalar (`mulss`, `addss`, `sqrtss`, …) |
+| **ARM64** | `physics_asm_arm64.S` | AArch64 scalar (`fmul`, `fadd`, `fsqrt`, …) |
+
+CMake auto-detects the host processor and links the correct `.s` file at build time. All C++ source files are hardware-agnostic.
+
+### Functions
+
+- `vector_distance_squared` — squared Euclidean distance (avoids `sqrt`)
+- `gravitational_force` — F = G·m₁·m₂ / r²
+- `normalize_vector3` — in-place normalization with zero-guard
+- `dot_product3` — dot product
+- `vector_add3` — element-wise vector addition
+- `vector_scale3` — scalar-vector multiplication
+
+---
+
+## Performance: Assembly vs C++ Scalar
 
 | Operation | C++ Scalar | Assembly SIMD | Speedup |
-|-----------|------------|---------------|---------|
-| **Distance Squared** | 5.14 ms | 3.87 ms | **1.33x** |
-| **Vector Normalization** | 11.29 ms | 7.96 ms | **1.42x** |
-| **Gravitational Force** | 2.73 ms | 3.74 ms | 0.73x* |
-| **Dot Product** | 1.28 ms | 3.11 ms | 0.41x* |
+|---|---|---|---|
+| **Distance Squared** | 5.14 ms | 3.87 ms | **1.33×** |
+| **Vector Normalization** | 11.29 ms | 7.96 ms | **1.42×** |
+| **Gravitational Force** | 2.73 ms | 3.74 ms | 0.73×* |
+| **Dot Product** | 1.28 ms | 3.11 ms | 0.41×* |
 
-_Benchmark performed on 1 million iterations. Results measured on x86-64 Linux with GCC 13.3.0._
-
-_Some operations show slower assembly performance due to function call overhead dominating for simple operations. In real-world simulations where these functions are called millions of times per frame within tight loops, the assembly versions provide better cache utilization and pipelining._
-
-### Running the Benchmarks 
+_Benchmark: 1 million iterations on x86-64 Linux, GCC 13.3.0. Some operations show overhead from function call cost; in tight simulation loops the assembly versions improve cache utilisation and pipelining._
 
 ```bash
-cd cmake-build-debug
-./PhysicsASM_Demo --benchmark
+cd cmake-build-debug && ./PhysicsASM_Demo --benchmark
 ```
 
 ---
 
+## Dependencies
 
+### Required (all targets)
+- **CMake** ≥ 3.21
+- **C++17** compiler (GCC or Clang)
 
-Before building, ensure you have the following dependencies installed:
+### Required (graphics targets)
+- **OpenGL** 3.3+   — `brew install` / `apt install libgl-dev`
+- **GLEW**          — `brew install glew` / `apt install libglew-dev`
+- **GLFW3**         — `brew install glfw` / `apt install libglfw3-dev`
+- **GLM**           — `brew install glm`  / `apt install libglm-dev`
 
-- **CMake** (version 3.21 or higher)
-- **C++ compiler** with C++17 support
-- **OpenGL** (3.3 or higher)
-  -  **For macOS**: macOS caps OpenGL support at version 4.1
-- **GLEW** - OpenGL Extension Wrangler Library
-- **GLFW3** - Window and input management
-- **GLM** - OpenGL Mathematics library
+### Optional
+- **CUDA Toolkit** 11+ — NVIDIA GPU target (`BlackHole_space_cuda`)
+- **Xcode / Metal** — pre-installed on macOS; required for `BlackHole_space_metal`
 
-### Tested Configuration
+### Installing dependencies
 
-This project has been successfully tested on:
-- **GPU**: NVIDIA A4000 (accessed via SSH)
-- **Platform**: Remote Linux server with X11 forwarding
-- **Development**: macOS (SSH client) → Linux server (NVIDIA A4000)
-
-### Installing Dependencies
-
-#### macOS (using Homebrew)
 ```bash
+# macOS
 brew install cmake glew glfw glm
-```
 
-#### Ubuntu/Debian
-```bash
-sudo apt-get update
+# Ubuntu / Debian
 sudo apt-get install cmake libglew-dev libglfw3-dev libglm-dev
 ```
 
+---
 
-###  Building
+## Building
 
-
-
+### Quick start (interactive menu)
 ```bash
-git clone <repository-url>
-cd Black_Hole_Assembly
-chmod +x build_and_run.sh
-./build_and_run.sh
+chmod +x build_and_run.sh && ./build_and_run.sh
 ```
 
-
-
-If you prefer to build manually:
-
+### Manual build
 ```bash
-mkdir -p cmake-build-debug
-cd cmake-build-debug
+mkdir -p cmake-build-debug && cd cmake-build-debug
 cmake ..
 make
 ```
 
-The executables will be in the `cmake-build-debug` directory.
-
-##  The Simulations
-
-
-
-### BlackHole_space - 3D Ray Tracer
+### Building a specific target
 ```bash
-./BlackHole_space
+cd cmake-build-debug
+make PhysicsASM_Demo
+make Gravity_Grid
+make BlackHole_space_cpu
+make BlackHole_space_cuda    # requires CUDA Toolkit
+make BlackHole_space_metal   # requires Apple Silicon + macOS
 ```
-Experience real-time ray tracing through curved spacetime around a black hole. Watch light bend and see the iconic accretion disk distortion.
 
-**Controls:**
-- `W/A/S/D` - Move camera forward/left/backward/right
-- `Q/E` - Move camera up/down
-- `Mouse` - Look around
-- `ESC` - Exit
+---
 
-### Gravity_Grid - N-Body Simulation
+## Running
+
+All graphics programs must be run from `cmake-build-debug/` so they can locate the runtime shader files (`grid.vert`, `grid.frag`).
+
 ```bash
-./Gravity_Grid
+cd cmake-build-debug
+
+./PhysicsASM_Demo             # no graphics required
+./Gravity_Grid                # N-body simulation
+./BlackHole_curv              # 2-D lensing demo
+./BlackHole_space_cpu         # CPU RK4 ray tracer
+./BlackHole_space_cuda        # CUDA GPU ray tracer  (NVIDIA only)
+./BlackHole_space_metal       # Metal GPU ray tracer (Apple Silicon only)
 ```
-Simulate gravitational interactions between multiple bodies. Observe orbital mechanics and gravitational attraction in action.
 
-**Controls:**
-- `Mouse` - Rotate view
-- `Scroll` - Zoom in/out
-- `ESC` - Exit
+### Controls (graphics programs)
 
-### BlackHole_curv - 2D Lensing Demo
-```bash
-./BlackHole_curv
-```
-A simplified 2D visualization of gravitational lensing effects around a massive object.
+- **Mouse drag** — rotate camera
+- **Scroll** — zoom in/out
+- **G** — toggle live N-body gravity (`BlackHole_space_*`)
+- **SPACE** — pause/resume (`Gravity_Grid`)
+- **ESC** — quit
 
-**Controls:**
-- `Mouse` - Interact with simulation
-- `ESC` - Exit
+---
 
-### PhysicsASM_Demo - Assembly-Optimized Physics
-```bash
-./PhysicsASM_Demo
-```
-Demonstration and verification of high-performance physics calculations implemented in x86-64 assembly language with SIMD instructions.
-displays results
-
-##  Project Structure
+## Project Structure
 
 ```
 Black_Hole_Assembly/
-├── .github/
-│   └── workflows/
-│       └── build.yml            # CI/CD: Automated build & test pipeline
-├── CMakeLists.txt               # Modern CMake build configuration
-├── README.md                    # This file
-├── TECHNICAL_HIGHLIGHTS.md      # 📋 Technical overview for recruiters
+├── CMakeLists.txt               # Smart multi-arch CMake build
+├── build_and_run.sh             # Interactive build & launch script
+│
+├── physics_asm.s                # x86-64 SSE assembly (6 functions)
+├── physics_asm_arm64.S          # ARM64 scalar assembly (same 6 functions, .S = preprocessed)
+├── physics_asm.hpp              # Unified C++ interface (arch-agnostic)
+├── physics_asm_demo.cpp         # Validation & benchmark suite
+│
+├── common.hpp                   # Shared: OrbitCamera, ShaderUtils, WindowManager
+├── gravity_grid.cpp             # N-body simulation
+├── black_hole_curv.cpp          # 2-D lensing demo
+├── black_hole_space.cpp         # Legacy OpenGL 4.3 compute-shader ray tracer
+├── black_hole_space_cpu.cpp     # CPU RK4 ray tracer (std::thread)
+├── black_hole_space_cuda.cu     # CUDA GPU ray tracer
+├── black_hole_space_metal.mm    # Metal GPU ray tracer (Objective-C++)
+│
+├── grid.vert / grid.frag        # GLSL shaders for grid rendering
+│
 ├── ARCHITECTURE.md              # System architecture documentation
-├── PHYSICS.md                   # Physics implementation details
-├── .gitignore                   # Build artifacts exclusion
-│
-├── common.hpp                   # Shared utilities (RAII wrappers, camera, shaders)
-├── black_hole_space.cpp         # 3D Ray Tracer with GPU compute shaders
-├── gravity_grid.cpp             # N-body simulation (assembly-optimized)
-├── black_hole_curv.cpp          # 2D gravitational lensing demo
-│
-├── physics_asm.s                # ⚡ Hand-written x86-64 assembly (SIMD)
-├── physics_asm.hpp              # C++ interface to assembly functions
-├── physics_asm_demo.cpp         # Benchmark & validation suite
-│
-├── geodesic.comp                # GPU compute shader (geodesic integration)
-├── grid.vert                    # Vertex shader (grid rendering)
-└── grid.frag                    # Fragment shader (grid rendering)
+├── PHYSICS.md                   # Physics derivations and implementation notes
+└── README.md                    # This file
 ```
 
+---
 
+## References
 
-
-
-
-
-
-### Shader compilation errors
-Check that shader files (`.comp`, `.vert`, `.frag`) are in the same directory as the executable.
-
-
-### Black screen or low FPS
-- Update your graphics drivers
-- Try reducing window resolution
-- Ensure GPU acceleration is enabled
-
-
-##  References
-
-- [General Relativity and Black Holes](https://en.wikipedia.org/wiki/General_relativity)
-- [Schwarzschild Metric](https://en.wikipedia.org/wiki/Schwarzschild_metric)
-- [Gravitational Lensing](https://en.wikipedia.org/wiki/Gravitational_lens)
-- [OpenGL Compute Shaders](https://www.khronos.org/opengl/wiki/Compute_Shader)
-- [x86-64 Assembly Language](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
-- [SSE Instructions Reference](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html)
+- [Schwarzschild Metric — Wikipedia](https://en.wikipedia.org/wiki/Schwarzschild_metric)
+- [Gravitational Lensing — Wikipedia](https://en.wikipedia.org/wiki/Gravitational_lens)
+- [ARM Architecture Reference Manual (AArch64)](https://developer.arm.com/documentation/ddi0487/latest)
+- [Intel 64 and IA-32 Architectures Software Developer's Manual](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
+- [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/)
+- [Metal Shading Language Specification](https://developer.apple.com/metal/Metal-Shading-Language-Specification.pdf)
 - [System V AMD64 ABI](https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf)
-
-
-

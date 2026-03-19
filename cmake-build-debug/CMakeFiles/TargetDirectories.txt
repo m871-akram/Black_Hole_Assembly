@@ -1,0 +1,7 @@
+/Users/mohammedakramlrhorfi/CLionProjects/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/PhysicsASM_Demo.dir
+/Users/mohammedakramlrhorfi/CLionProjects/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/Gravity_Grid.dir
+/Users/mohammedakramlrhorfi/CLionProjects/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/BlackHole_curv.dir
+/Users/mohammedakramlrhorfi/CLionProjects/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/BlackHole_space_cpu.dir
+/Users/mohammedakramlrhorfi/CLionProjects/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/BlackHole_space_metal.dir
+/Users/mohammedakramlrhorfi/CLionProjects/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mohammedakramlrhorfi/CLionProjects/Black_Hole_Assembly/cmake-build-debug/CMakeFiles/rebuild_cache.dir

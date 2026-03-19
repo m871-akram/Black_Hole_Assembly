@@ -1,0 +1,1 @@
+/opt/gcc-fsf-gnat/bin/c++ -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/PhysicsASM_Demo.dir/physics_asm_demo.cpp.o CMakeFiles/PhysicsASM_Demo.dir/physics_asm_arm64.S.o -o PhysicsASM_Demo

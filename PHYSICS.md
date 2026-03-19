@@ -82,15 +82,13 @@ The event horizon at r = r_s represents the point of no return. Key properties:
 2. **Infinite redshift**: Light from the horizon is infinitely redshifted
 3. **Trapped surface**: No light can escape from inside
 
-**Intercept check** (from `black_hole_space.cpp`):
+**Intercept check** (all backends, via `physics_asm.hpp`):
 ```cpp
-bool Intercept(float px, float py, float pz) const {
-    double dx = double(px) - double(position.x);
-    double dy = double(py) - double(position.y);
-    double dz = double(pz) - double(position.z);
-    double dist2 = dx * dx + dy * dy + dz * dz;
-    return dist2 < r_s * r_s;  // Inside event horizon
-}
+// PhysicsASM::DistanceSquared dispatches to hand-written assembly:
+//   physics_asm_arm64.s on ARM64, physics_asm.s on x86-64
+double dist2 = PhysicsASM::DistanceSquared(px, py, pz,
+                   float(position.x), float(position.y), float(position.z));
+return dist2 < r_s * r_s;   // Inside event horizon
 ```
 
 
@@ -236,6 +234,10 @@ Where a(x, v) = -Γ^μ_αβ v^α v^β is the acceleration from the geodesic equa
 
 The RK4 method allows us to use larger time steps while maintaining accuracy, crucial for real-time ray tracing through curved spacetime.
 
+#### Historical Note — Euler vs RK4
+
+The original GLSL compute shader (`geodesic.comp`, now removed) was named `rk4Step` but implemented only a first-order symplectic Euler step (a single evaluation of `geodesicRHS`).  The current CPU (`black_hole_space_cpu.cpp`) and CUDA (`black_hole_space_cuda.cu`) backends implement **true 4-stage RK4**, performing four `geodesicRHS` evaluations per step.  The improvement reduces integration error per step from O(Δλ²) to O(Δλ⁵), yielding visibly sharper ring and disk features at the same step size.
+
 
 
 ## Gravitational Lensing
@@ -276,10 +278,19 @@ Where D_L, D_S, D_LS are distances between lens, source, and lens-source.
 
 ### Ray Tracing Implementation
 
-The 3D simulation traces rays backward from the camera through spacetime:
+The 3-D simulation traces rays backward from the camera through spacetime.
+Three compute backends are available, all producing identical output:
+
+| Backend | File | Parallelism |
+|---|---|---|
+| CPU RK4 | `black_hole_space_cpu.cpp` | `std::thread`, one band per thread |
+| CUDA GPU | `black_hole_space_cuda.cu` | One CUDA thread per pixel, 16×16 blocks |
+| Metal GPU | `black_hole_space_metal.mm` | One Metal thread per pixel, CAMetalLayer |
+
+**Per-ray algorithm:**
 
 1. **Initialize ray** at camera position with direction toward pixel
-2. **Integrate geodesic equation** backward in time
+2. **Integrate geodesic equation** with true 4-stage RK4 (CPU/CUDA) or Metal kernel
 3. **Check for intersection** with objects or event horizon
 4. **Determine color** based on what the ray hits
 5. **Apply gravitational effects** (lensing, redshift)

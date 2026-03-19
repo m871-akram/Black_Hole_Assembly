@@ -168,7 +168,7 @@ struct Engine {
     }
 };
 
-// fonctions physiques, accrochez-vous les maths arrivent
+// fonctions physiques
 void geodesicRHS(const Ray& ray, double rhs[4], double rs) {
     double r = ray.r;
     double dr = ray.dr;

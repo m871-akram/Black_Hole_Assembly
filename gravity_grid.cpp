@@ -517,6 +517,12 @@ GLFWwindow* StartGLU() {
         std::cout << "GLFW a planté avant même de commencer... super." << std::endl;
         return nullptr;
     }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
     GLFWwindow* window = glfwCreateWindow(800, 600, "Simulation Gravitationnelle - Projet du Futur", NULL, NULL);
     if (!window) {
         std::cerr << "Pas de fenêtre, pas de simulation. RIP." << std::endl;
