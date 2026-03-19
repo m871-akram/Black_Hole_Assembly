@@ -3,6 +3,7 @@ cmake-build-debug/
 cmake-build-release/
 build/
 dist/
+CLAUDE.md
 
 # CMake
 CMakeFiles/
