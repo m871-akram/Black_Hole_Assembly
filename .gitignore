@@ -1,0 +1,43 @@
+# Build directories
+cmake-build-debug/
+cmake-build-release/
+build/
+dist/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiled binaries and objects
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+*.out
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Dependencies
+/dependencies/
+vcpkg_installed/
+
+# doxygen
+docs/html/
+docs/latex/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
